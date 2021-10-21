@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Smart Invest</title>
+   {% load static %}
+  <!-- Custom fonts for this template-->
+  <link href=" {% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+
+
+  <!-- Page level plugin CSS-->
+  <link href=" {% static 'vendor/datatables/dataTables.bootstrap4.css' %}" rel="stylesheet">
+
+  <!-- Custom styles for this template-->
+  <link href="{% static 'css/sb-admin.css' %}" rel="stylesheet">
+<!--<link href="css/login.css" rel="stylesheet">-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+ <!--<script src="../sendformdata.js"></script>-->
+
+ <script src="{% static 'js/projectjs/updategroup.js' %}"></script>
+  <script src="{% static 'js/projectjs/getinstrumnetsgroup.js' %}"></script>
+ <script src="{% static 'js/projectjs/multiple-trigger.js' %}"></script>
+ <script src="{% static 'js/projectjs/getinstruments.js' %}"></script>
+ <script src="{% static 'js/projectjs/getorderinstruments.js' %}"></script>
+ <script src="{% static 'js/projectjs/p2p1symbolone.js' %}"></script>
+ <script src="{% static 'js/projectjs/p2p1symboltwo.js' %}"></script>
+ 
+</head>
+
+
+<body id="page-top">
+
+  <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
+
+    <a class="navbar-brand mr-1" href="{% url 'home' %}">Smart Invest</a>
+
+    <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
+      <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Navbar Search -->
+    <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0" style="visibility: hidden;">
+    {% csrf_token %}
+
+      <div class="input-group">
+        <!--<input type="text" class="form-control" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">-->
+        <div class="input-group-append">
+          <button class="btn btn-primary" type="button">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+      </div>
+    </form>
+
+    <!-- Navbar -->
+    <ul class="navbar-nav ml-auto ml-md-0">
+<!--      <li class="nav-item dropdown no-arrow mx-1">
+        <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="fas fa-bell fa-fw"></i>
+          <span class="badge badge-danger">9+</span>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="alertsDropdown">
+          <a class="dropdown-item" href="#">Action</a>
+          <a class="dropdown-item" href="#">Another action</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">Something else here</a>
+        </div>
+      </li>-->
+      <li class="nav-item dropdown no-arrow mx-1">
+        <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <!--<i class="fas fa-envelope fa-fw"></i>-->
+          <p style="font-size:20px">{{username}}</p>
+          <!--<span class="badge badge-danger"></span>-->
+        </a>
+<!--        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="messagesDropdown">
+          <a class="dropdown-item" href="#">Action</a>
+          <a class="dropdown-item" href="#">Another action</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">Something else here</a>
+        </div>
+      </li>-->
+      <li class="nav-item dropdown no-arrow">
+        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="fas fa-user-circle fa-fw"></i>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+          <!--<a class="dropdown-item" href="#">Settings</a>-->
+          <!--<a class="dropdown-item" href="#">Activity Log</a>-->
+          <div class="dropdown-divider"></div>
+          <!--<a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">Logout</a>-->
+        </div>
+      </li>
+    </ul>
+
+  </nav>
+
+  <div id="wrapper">
+
+   <!------------ edit: Sidebar --------  -->     
+
+      <nav class="sidebar" >
+          <a class="nav-link" href="{% url 'home' %}"></a>
+          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <ul>
+                {% comment %} <li class="active"><a href="{% url 'home' %}">Dashboard</a></li> {% endcomment %}
+                <li>
+                    <a href="#" class="feat-btn" style="color:white;">Individual
+                        <span class="fas fa-caret-down first"></span>
+                    </a>
+                    <ul class="feat-show">
+                        <li><a href="{% url 'home' %}">Dashboard</a> </li>
+
+                        <li> <a href="{% url 'save_multiple_trigger' %}" >  Add Trigger</a> </li>
+                        <li> <a href="{% url 'save_multiple_order' %}" > Add Order</a> </li>
+                        <li> <a href="{% url 'trigger_list' %}" > Trigger List</a> </li>
+        
+                    </ul>
+                </li>
+                <li>
+                    <a href="#" class="serv-btn" style="color:white;">Group<span class="fas fa-caret-down second"></span></a>
+                        <ul class="serv-show">
+                            <li> <a href="{% url 'groups_order_listing' %}" > Group Dashboard</a> </li>
+                            <li> <a href="{% url 'create_group' %}" >Create Group</a> </li>
+                            <li> <a href="{% url 'insert_group_trigger' %}" > Add Trigger</a> </li>
+                            <li> <a href="{% url 'insert_group_order' %}" > Add Order</a> </li>
+                            <li> <a href="{% url 'group_listing' %}" > Group List</a> </li>
+                            {% comment %} <li> <a href="{% url 'group_trigger_listing' %}" >  Group Trigger List</a> </li> {% endcomment %}
+                        </ul>
+                </li>
+                <li>
+                    <a href="{% url 'user_logout' %}" style="color:white;padding-left:12px;"><i class="fa fa-sign-out" >  </i>Log Out</a>
+                </li>
+            </ul>
+      </nav>
+      
+      <!------------ edit: Sidebar --------  -->  
+    <div id="content-wrapper">
+<!--table start-->
+<div class="panel-wrap">
+  <div class="panel">
+<div class="container">
+    <div class="row">
+<div class="col-lg-6 ">
+        <!--<div class="me-blog-two me-padder-top-less me-padder-bottom" style="padding-bottom:30px">-->
+        <div class="container" style="padding-top:30px">
+           
+           
+                 <!---->
+                  <div class="col-sm-12" style="margin-right:10px;padding-left:0px">
+                <h1 style="border-bottom: 2px solid rgb(191, 191, 191);font-size:30px!important;background-color:rgb(191, 191, 191);padding:8px;padding-right:30px"><center><b> Update Group</b></center></h1>
+            </div>
+        <!--</div>-->
+        </div>
+         <div class="col-lg-8">
+     <div class="form-group">
+                    <label for="group_name"style="font-weight:700;font-size:16px">Group Name</label>
+                    <input style="background-color:#E9ECEF;font-size:16px" class="form-control" type="text" name="group_name" value={{group_name}} id="group_name" placeholder="Group Name">
+                </div>
+            </div> 
+    
+    <section>
+        <form action="" id="groupform">
+        {% csrf_token %}
+        <div class="container-fluid">
+            <div class="row">
+                 <!--<div class="col-lg-4"></div>-->
+           
+                
+                  
+         
+            <div class="col-lg-8">
+     <div class="form-group">
+                    <label for="group_exchange"style="font-weight:700;font-size:16px">Exchange</label>
+                    <select class="form-control" id="group_exchange"  style="background-color:#E9ECEF;font-size:16px;">
+                         
+                         <option value="4" data-trade="4">NSE</option>
+                         <option value="1" data-trade="1">BSE</option>
+                         <option value="3" data-trade="3">NFO</option>
+                         <option value="2" data-trade="2">MCX</option>
+          </select>
+                </div>
+            </div> 
+                
+                  
+     
+      
+                 
+                 <div class="col-lg-8" >
+                 <div class="form-group" id="symbolcontainer">
+      <label for="group_symbol"style="font-weight:700;font-size:16px">Symbol</label>
+      <input  style="background-color:#E9ECEF;font-size:16px" type="text" class="form-control"  id="group_symbol" placeholder="Symbol" name="smbl;" >
+      <ul class="list-group" id="result"></ul>
+      <div style="display: none;"><input type="text" id="instrument_token"></div>
+    </div></div>
+    
+     
+     
+      
+   
+      
+  
+      
+     
+         
+       
+    
+    
+            
+               
+            
+       
+      
+    
+     
+    
+    <!--<div class="col-lg-4" style="font-weight:700;font-size:16px"> <button type="submit" class="btn btn-default" style="background-color:#E9ECEF;font-weight:700">Submit</button></div>-->
+    
+   </div>
+       <br>
+            
+        </div>
+        </form>
+        <div class="col-lg-4">
+         <button name="addtrigger" id="addsymbol" class="btn btn-success">Add Symbol +</button>
+        </div>  
+    </section>
+    </div>
+
+    <div class="col-lg-6" style="padding-top:30px">
+
+         <form method="post" id="add_group_form">
+         {% csrf_token %}
+    <div class="table-responsive">
+     <table class="table table-striped table-bordered " id="group_data">
+      <tr>
+       
+       <!--<th>Exchange</th>-->
+       <th>Symbol</th>
+       
+       <th>Remove</th>
+      </tr>
+      {% for i in symbol %}
+      <tr class="trade_data">
+        <!--<td></td>-->
+        
+        <td> <input type="hidden" name="group_symbol[]" value={{i}} id="group_symbol'+count+'" class="group_symbol" value="'+group_symbol+'" >{{i}}</td>
+       
+        <td><button type="button" name="remove_details" class="btn btn-danger btn-xs remove_details" onclick="deleteRow(this)">Remove</button></td>
+       
+      </tr>
+       {% endfor %}
+     </table>
+    </div>
+    <div align="center">
+     <input type="submit" name="insert" id="insert" class="btn btn-primary" value="Submit" />
+    </div>
+   </form>
+     
+    </div>
+ 
+</div>
+</div>
+</div></div>
+<!--end table2-->
+     
+      <!-- Sticky Footer -->
+      <footer class="sticky-footer">
+        <div class="container my-auto">
+          <div class="copyright text-center my-auto">
+            
+            <span>Copyright ©Smart Invest 2020</span>
+          </div>
+        </div>
+      </footer>
+
+    </div>
+    <!-- /.content-wrapper -->
+
+  </div>
+  <!-- /#wrapper -->
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+
+
+  <script>
+ function deleteRow(r) {
+  var i = r.parentNode.parentNode.rowIndex;
+  document.getElementById("group_data").deleteRow(i);
+}
+  </script> 
+    
+  <!-- Bootstrap core JavaScript-->
+  <link href=" {% static "vendor/datatables/dataTables.bootstrap4.css" %}" rel="stylesheet">
+
+  <script  src="{% static 'vendor/jquery/jquery.min.js'  %}"></script>
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <!-- Core plugin JavaScript-->
+  <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+  <!-- Page level plugin JavaScript-->
+  <script src="{% static 'vendor/chart.js/Chart.min.js' %}"></script>
+  <script src="{% static 'vendor/datatables/jquery.dataTables.js' %}"></script>
+  <script src="{% static 'vendor/datatables/dataTables.bootstrap4.js' %}"></script> 
+  <!-- Custom scripts for all pages-->
+  <script src="{% static 'js/sb-admin.min.js' %}"></script>
+  <!-- Demo scripts for this page-->
+  <script src="{% static 'js/demo/datatables-demo.js' %}"></script>
+  <!--<script src="js/demo/chart-area-demo.js"></script>-->
+ <script src="{% static 'js/custom.js' %}"></script>
+<script>
+
+      $('.feat-btn').click(function(){
+        $('nav ul .feat-show').toggleClass("show1");
+        $('nav ul .first').toggleClass("rotate1");
+      });
+      $('.feat-btn').click(function(){
+        $('nav ul .feat-show').toggleClass("show");
+     
+      });
+      $('.serv-btn').click(function(){
+        $('nav ul .serv-show').toggleClass("show1");
+        $('nav ul .second').toggleClass("rotate");
+      });
+      $('nav ul li').click(function(){
+        $(this).addClass("active").siblings().removeClass("active");
+      });
+    </script>
+ 
+</body>
+</html>

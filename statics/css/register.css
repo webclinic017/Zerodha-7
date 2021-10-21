@@ -1,0 +1,235 @@
+body{
+    margin:0;
+    padding: 0;
+    background: url("../images/Registration.jpg");
+        width:100%;
+        height: 210%;
+        /*background-position: center;*/
+        font-family: sans-serif;
+}
+
+.login-box
+{
+    width: 420px;
+    height: 1350px;
+    background: rgba(0,0,0,0.5);
+    color:#fff;
+    top: 108%;
+    left: 50%;
+    bottom:100%;
+    position: absolute;
+    transform: translate(-50%,-50%);
+    box-sizing: border-box;
+    padding: 70px 30px;
+   
+}
+
+.loginpage
+{
+    width: 42px;
+    height: 72px;
+    border-radius: 50%;
+    position: absolute;
+    top: -30px;
+    left:calc(50% - 30px);
+}
+h1{
+    margin: 0;
+    padding: 5px 5px 10px;
+    
+    text-align: center;
+    font-size: 22px;
+     border:2px solid green;
+     background-color:rgb(30,134,30);
+     border-radius:10px 10px 10px 10px;
+}
+::placeholder { /* Firefox, Chrome, Opera */ 
+    color: blue; 
+} 
+.login-box p{
+    margin: 0;
+    padding: 0;
+    font-weight: bold;
+}
+
+.login-box input
+{
+    width: 100%;
+    margin-bottom: 20px;
+}
+.login-box input[type="text"],input[type="password"]
+{
+    border:none;
+    border-bottom: 1px solid #fff;
+    background: transparent;
+    outline:none;
+    height: 40px;
+    color: #fff;
+    font-size: 16px;
+}
+.login-box input[type="submit"]
+{
+    border:none;
+    outline:none;
+    height:40px;
+    background: #1c8adb;
+    color:#fff;
+    font-size: 18px;
+    border-radius: 20px;
+}
+  .login-box input[type="submit"]:hover
+  {
+      cursor: pointer;
+      background: #39dc79;
+      color: #000;
+  }
+
+  .login-box button[type="submit"]
+{
+    border:none;
+    outline:none;
+    height:40px;
+    background: #1c8adb;
+    color:#fff;
+    font-size: 18px;
+    border-radius: 20px;
+   
+}
+  .login-box button[type="submit"]:hover
+  {
+      cursor: pointer;
+      background: #39dc79;
+      color: #000;
+   padding-left: 20px;
+  }
+ .login-box input[type="email"],input[type="phone"]
+{
+    border:none;
+    border-bottom: 1px solid #fff;
+    background: transparent;
+    outline:none;
+    height: 40px;
+    color: #fff;
+    font-size: 16px;
+} 
+
+  
+/*end of login page*/
+.dropdown {
+  float: left;
+  overflow: hidden;
+}
+
+.dropdown .dropbtn {
+  font-size: 16px;  
+  border: none;
+  outline: none;
+  color: white;
+  padding: 14px 4px;
+  background-color: inherit;
+  font-family: inherit;
+  margin: 0;
+}
+
+.navbar a:hover, .dropdown:hover .dropbtn {
+  background-color: red;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  float: none;
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+::placeholder {
+  color: black;
+  opacity: 1; /* Firefox */
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+ color: black;
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+ color: black;
+}
+.select option{
+    background-color: #2c3e50;
+}
+
+
+
+h1 {
+  margin: 0 0 0.25em;
+}
+/* Reset Select */
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  outline: 0;
+  box-shadow: none;
+  border: 0 !important;
+  background: #2c3e50;
+  background-image: none;
+}
+/* Remove IE arrow */
+select::-ms-expand {
+  display: none;
+}
+/* Custom Select */
+.select {
+  position: relative;
+  display: flex;
+  width: 20em;
+  height: 3em;
+  line-height: 3;
+  background:#2c3e50;
+  overflow: hidden;
+  border-radius: .25em;
+}
+select {
+  flex: 1;
+  padding: 0 .5em;
+  color: #fff;
+  cursor: pointer;
+}
+/* Arrow */
+.select::after {
+  content: '\25BC';
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0 1em;
+  background:black;
+  cursor: pointer;
+  pointer-events: none;
+  -webkit-transition: .25s all ease;
+  -o-transition: .25s all ease;
+  transition: .25s all ease;
+}
+/* Transition */
+.select:hover::after {
+  color: #2c3e50 ;
+}
+

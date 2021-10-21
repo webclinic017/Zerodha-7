@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <title>Smart Invest</title>
+   {% load static %}
+  <!-- Custom fonts for this template-->
+  <link href=" {% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+  <!-- Page level plugin CSS-->
+  <link href=" {% static 'vendor/datatables/dataTables.bootstrap4.css' %}" rel="stylesheet">
+  <!-- Custom styles for this template-->
+  <link href="{% static 'css/sb-admin.css' %}" rel="stylesheet">
+<!--<link href="css/login.css" rel="stylesheet">-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+ <!--<script src="../sendformdata.js"></script>-->
+ <script src="{% static 'js/projectjs/place-group.js' %}"></script>
+ <script src="{% static 'js/projectjs/getinstruments.js' %}"></script>
+ <script src="{% static 'js/projectjs/getorderinstruments.js' %}"></script>
+ <script src="{% static 'js/projectjs/p2p1symbolone.js' %}"></script>
+ <script src="{% static 'js/projectjs/p2p1symboltwo.js' %}"></script>
+ 
+
+<body id="page-top">
+
+  <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
+
+    <a class="navbar-brand mr-1" href="{% url 'home' %}">Smart Invest</a>
+
+    <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
+      <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Navbar Search -->
+    <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0" style="visibility: hidden;">
+      <div class="input-group">
+        <!--<input type="text" class="form-control" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">-->
+        <div class="input-group-append">
+          <button class="btn btn-primary" type="button">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+      </div>
+    </form>
+
+    <!-- Navbar -->
+    <ul class="navbar-nav ml-auto ml-md-0">
+<!--      <li class="nav-item dropdown no-arrow mx-1">
+        <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="fas fa-bell fa-fw"></i>
+          <span class="badge badge-danger">9+</span>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="alertsDropdown">
+          <a class="dropdown-item" href="#">Action</a>
+          <a class="dropdown-item" href="#">Another action</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">Something else here</a>
+        </div>
+      </li>-->
+      <li class="nav-item dropdown no-arrow mx-1">
+        <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <!--<i class="fas fa-envelope fa-fw"></i>-->
+          <p style="font-size:20px">{{current_user}}</p>
+          <!--<span class="badge badge-danger"></span>-->
+        </a>
+<!--        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="messagesDropdown">
+          <a class="dropdown-item" href="#">Action</a>
+          <a class="dropdown-item" href="#">Another action</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">Something else here</a>
+        </div>
+      </li>-->
+      <li class="nav-item dropdown no-arrow">
+        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="fas fa-user-circle fa-fw"></i>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+          <!--<a class="dropdown-item" href="#">Settings</a>-->
+          <!--<a class="dropdown-item" href="#">Activity Log</a>-->
+          <div class="dropdown-divider"></div>
+          <!--<a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">Logout</a>-->
+        </div>
+      </li>
+    </ul>
+
+  </nav>
+
+  <div id="wrapper">
+
+   <!------------ edit: Sidebar --------  -->     
+
+      <nav class="sidebar" >
+          <a class="nav-link" href="{% url 'home' %}"></a>
+          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <ul>
+                {% comment %} <li class="active"><a href="{% url 'home' %}">Dashboard</a></li> {% endcomment %}
+                <li>
+                    <a href="#" class="feat-btn" style="color:white;">Individual
+                        <span class="fas fa-caret-down first"></span>
+                    </a>
+                    <ul class="feat-show">
+                        <li><a href="{% url 'home' %}">Dashboard</a> </li>
+
+                        <li> <a href="{% url 'save_multiple_trigger' %}" >  Add Trigger</a> </li>
+                        <li> <a href="{% url 'save_multiple_order' %}" > Add Order</a> </li>
+                        <li> <a href="{% url 'trigger_list' %}" > Trigger List</a> </li>
+        
+                    </ul>
+                </li>
+                <li>
+                    <a href="#" class="serv-btn" style="color:white;">Group<span class="fas fa-caret-down second"></span></a>
+                        <ul class="serv-show">
+                            <li> <a href="{% url 'groups_order_listing' %}" > Group Dashboard</a> </li>
+                            <li> <a href="{% url 'create_group' %}" >Create Group</a> </li>
+                            <li> <a href="{% url 'insert_group_trigger' %}" > Add Trigger</a> </li>
+                            <li> <a href="{% url 'insert_group_order' %}" > Add Order</a> </li>
+                            <li> <a href="{% url 'group_listing' %}" > Group List</a> </li>
+                            {% comment %} <li> <a href="{% url 'group_trigger_listing' %}" >  Group Trigger List</a> </li> {% endcomment %}
+                        </ul>
+                </li>
+                <li>
+                    <a href="{% url 'user_logout' %}" style="color:white;padding-left:12px;"><i class="fa fa-sign-out" >  </i>Log Out</a>
+                </li>
+            </ul>
+      </nav>
+      
+      <!------------ edit: Sidebar --------  -->  
+       
+      <div id="content-wrapper">
+<!--table start-->
+<div class="panel-wrap">
+  <div class="panel">
+<div class="container">
+    <center>
+         <!--<div class="me-heading2">-->
+                <!--<h1 style="background-color:#FFA500;font-size:32px">Trigger and Condition Set</h1>-->
+         <!--   </div>-->
+    </center>
+    <div class="row">
+<div class="col-sm-8">
+        <!--<div class="me-blog-two me-padder-top-less me-padder-bottom" style="padding-bottom:30px">-->
+        <div class="container" style="padding-top:30px">
+           
+           
+                 <!---->
+                  <div class="col-sm-6" style="margin-right:10px;padding-left:10px">
+                <h1 style="border-bottom: 2px solid #ffb628;font-size:30px!important;background-color:#FFA500;padding:8px;padding-right:30px"><center><b> Select Group</b></center></h1>
+            </div>
+        <!--</div>-->
+        </div>
+    
+    <section>
+        <form action="" id="triggerform">
+        <div class="container-fluid">
+            <div class="row">
+                 <!--<div class="col-lg-4"></div>-->    
+            <div class="col-lg-6">
+                <div class="form-group">
+      <label for="group_name" style="font-weight:700">Group Name</label>
+      <select class="form-control" id="group_name"  name="group_name" style="background-color:#E9ECEF">
+          <option>Select Group Name</option>
+          {% for name in group_names %}
+          <option value="{{name}}">{{name}}</option>
+          {% endfor %}
+          </select>
+          </select>
+                </div>
+            </div> 
+    
+    <div class="col-lg-4"></div>
+       <div class="col-lg-2"></div>
+       <div class="col-lg-6">
+       <div class="form-group">
+                    {% comment %} <label for="exchange"style="font-weight:700;font-size:16px">Trigger</label> {% endcomment %}
+                    {% comment %} <select class="form-control" id="trigger_name" style="background-color:#E9ECEF;font-size:16px;"> {% endcomment %}
+                         {% comment %} <option>Select Trigger</option> {% endcomment %}
+                         <option value=""></option>
+                         
+          </select>
+                </div>         
+       
+       </div>
+
+   </div>
+       <br>
+            
+        </div>
+        </form>
+    </section>
+    </div>
+   
+        <!--order-->
+ <div class="col-sm-4" style="padding-bottom:10px;height:1000px" >
+<!--<div class="" style="background-color:#f2f2f2;padding-bottom:10px">-->
+<!--   <div class="container">-->
+<!--       <div class="row">-->
+        
+<!--     <div class="col-lg-4"></div>-->
+     
+     
+     <!--order condition-->
+     
+   
+          <!--<div class="col-lg-4">-->
+          <div class="" style="padding-top:30px;padding-left:0px;padding-right:0px" >
+               <div class="container-fluid" ></div>
+            <div class="me-heading2" >
+                <h1 style="border-bottom: 2px solid #ffb628;font-size:30px!important;background-color:#FFA500;padding:8px;font-weight:500"><center><b>Order Condition</b></center></h1>
+            </div>
+        <!--</div>-->
+        </div>
+  <form action="" id="orderform">
+  
+    <div class="form-group">
+      <label for="buy" style="font-weight:700">Buy/Sell</label>
+      <select class="form-control" id="order_buy_sell"  style="background-color:#E9ECEF">
+          <option>Select buy/sell</option>
+          <option value="1">Buy</option>
+          <option value="2">Sell</option>
+          </select>
+    </div>
+     
+    <div class="form-group">
+      <label for="qty" style="font-weight:700">Amount</label>
+      <input  style="background-color:#E9ECEF" type="text" class="form-control" id="order_amount" placeholder="Amount" name="order_amount">
+    </div>
+     <div class="form-group">
+      <label for="product_type" style="font-weight:700">Product Type</label>
+      <select class="form-control" id="order_product_type"  style="background-color:#E9ECEF">
+          <option>Select product type</option>
+          <option value="1">NRML</option>
+          <option value="2">MIS</option>
+          <option value="3">CNC</option>
+          </select>
+    </div>
+    <div class="form-group">
+      <label for="order" style="font-weight:700">Order</label>
+      <select class="form-control" id="order_type"  style="background-color:#E9ECEF">
+          <option>Select order type</option>
+          <option value="1">Market</option>
+          <option value="2">Limit</option>
+          <option value="3">SL</option>
+          <option value="4">SL-M</option>
+          </select>
+    </div>
+    <div class="form-group" id="order-price-container" style="display: none">
+      <label for="trigger" style="font-weight:700">Price</label>
+      <input style="background-color:#E9ECEF"type="text" class="form-control" id="order-price" placeholder="Price" name="trigger">
+    </div>
+    <div class="form-group" style="display: none" id="trigger-price-container">
+      <label for="price" style="font-weight:700"> Trigger Price:</label>
+      <input style="background-color:#E9ECEF" type="text" class="form-control" id="order-trigger-price" placeholder=" Trigger Price" name="price">
+    </div>
+   <br/>
+   <button type="button" class="btn btn-default" id="placeorder" style="font-weight:700;background-color:#E9ECEF">Submit</button>
+  </form>
+ 
+  </div>
+ 
+</div>
+</div>
+</div></div>
+<!--end table2-->
+     
+      <!-- Sticky Footer -->
+      <footer class="sticky-footer">
+        <div class="container my-auto">
+          <div class="copyright text-center my-auto">
+            
+            <span>Copyright ©Smart Invest 2020</span>
+          </div>
+        </div>
+      </footer>
+
+    </div>
+    <!-- /.content-wrapper -->
+
+  </div>
+  <!-- /#wrapper -->
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  <!-- Logout Modal-->
+  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+          <a class="btn btn-primary" href="login.html">Logout</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Bootstrap core JavaScript-->
+  <link href=" {% static "vendor/datatables/dataTables.bootstrap4.css" %}" rel="stylesheet">
+
+  <script  src="{% static 'vendor/jquery/jquery.min.js'  %}"></script>
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <!-- Core plugin JavaScript-->
+  <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+  <!-- Page level plugin JavaScript-->
+  <script src="{% static 'vendor/chart.js/Chart.min.js' %}"></script>
+  <script src="{% static 'vendor/datatables/jquery.dataTables.js' %}"></script>
+  <script src="{% static 'vendor/datatables/dataTables.bootstrap4.js' %}"></script> 
+  <!-- Custom scripts for all pages-->
+  <script src="{% static 'js/sb-admin.min.js' %}"></script>
+  <!-- Demo scripts for this page-->
+  <script src="{% static 'js/demo/datatables-demo.js' %}"></script>
+  <script>
+
+      $('.feat-btn').click(function(){
+        $('nav ul .feat-show').toggleClass("show1");
+        $('nav ul .first').toggleClass("rotate1");
+      });
+      $('.feat-btn').click(function(){
+        $('nav ul .feat-show').toggleClass("show");
+     
+      });
+      $('.serv-btn').click(function(){
+        $('nav ul .serv-show').toggleClass("show1");
+        $('nav ul .second').toggleClass("rotate");
+      });
+      $('nav ul li').click(function(){
+        $(this).addClass("active").siblings().removeClass("active");
+      });
+    </script>
+  <!--<script src="js/demo/chart-area-demo.js"></script>-->
+ <script src="{% static 'js/custom.js' %}">
+ </script><script type="text/javascript">
+    $(function () {
+        $("#select_trigger").change(function () {
+            if ($(this).val() == "1") {
+                $("#price-con").show();
+                $("#price-am").show();
+                $("#symbolcontainer").show();
+            } else {
+                $("#price-con").hide();
+                 $("#price-am").hide();
+            }
+            
+            if ($(this).val() == "2") {
+                $("#moving_average").show();
+                $("#moving_average_one").show();
+                $("#moving_average_two").show();
+                $("#moving_average_time_frame").show();
+                $("#moving_average_type").show();
+                $("#moving_average_period").show();
+                $("#moving_average_field").show();
+                $("#price-am-one").hide();
+                $("#price-am-two").hide();
+                $("#symbolcontainer").show();
+                
+            } else {
+                $("#moving_average").hide();
+                 $("#moving_average_one").hide();
+                $("#moving_average_two").hide();
+                $("#moving_average_time_frame").hide();
+                $("#moving_average_type").hide();
+                $("#moving_average_period").hide();
+                $("#moving_average_field").hide();
+                 
+            }
+            
+            if ($(this).val() == "3") {
+                $("#volume_con").show();
+                $("#volume_con_time_frame").show();
+                $("#symbolcontainer").show();
+            } else {
+                $("#volume_con").hide();
+                 $("#volume_con_time_frame").hide();
+            }
+            
+             if ($(this).val() == "6") {
+                $("#rsi_con").show();
+                $("#rsi_amount").show();
+                $("#rsi_con_one").show();
+                $("#rsi_time_frame").show();
+                $("#rsi_period").show();
+                $("#rsi_con_two").show();
+                $("#symbolcontainer").show();
+                
+                
+            } else {
+               $("#rsi_con").hide();
+                $("#rsi_amount").hide();
+                $("#rsi_con_one").hide();
+                $("#rsi_time_frame").hide();
+                $("#rsi_period").hide();
+                $("#rsi_con_two").hide();
+            }
+            
+//            if ($(this).val() == "parabolic_sar") {
+//                $("#parabolic_sar_con").show();
+//                $("#parabolic_sar_con_one").show();
+//                $("#parabolic_sar_con_two").show();
+//                $("#parabolic_sar_time_frame").show();
+//                $("#parabolic_sar_time_frame_one").show();
+//                $("#parabolic_sar_time_frame_two").show();
+//            } else {
+//                $("#parabolic_sar_con").hide();
+//                $("#parabolic_sar_con_one").hide();
+//                $("#parabolic_sar_con_two").hide();
+//                $("#parabolic_sar_time_frame").hide();
+//                $("#parabolic_sar_time_frame_one").hide();
+//                $("#parabolic_sar_time_frame_two").hide();
+//            }
+            
+             if ($(this).val() == "4") {
+                $("#p_con").show();
+                $("#p_amount").show();
+                $("#p_con_one").show();
+                $("#p_con_two").show();
+                $("#p_symbol_one").show();
+                $("#p_symbol_two").show();
+                $("#symbolcontainer").hide();
+            } else {
+                $("#p_con").hide();
+                $("#p_amount").hide();
+                $("#p_con_one").hide();
+                $("#p_con_two").hide();
+                $("#p_symbol_one").hide();
+                $("#p_symbol_two").hide();
+//                $("#symbolcontainer").show();
+            }
+            
+              if($(this).val() == "7"){
+                
+                $("#p2minusp1_con").show();
+                $("#p2minusp1_conone").show();
+                $("#p2minusp1_confour").show();
+                $("#p2minusp1_symbol_one").show();
+                $("#p2minusp1_symbol_two").show();
+                $("#symbolcontainer").hide();
+            }else{
+                $("#p2minusp1_con").hide();
+                $("#p2minusp1_conone").hide();
+                $("#p2minusp1_contwo").hide();
+                $("#p2minusp1_conthree").hide();
+                $("#p2minusp1_confour").hide();
+                $("#p2minusp1_symbol_one").hide();
+                $("#p2minusp1_symbol_two").hide();
+//                $("#symbolcontainer").show();
+                
+            }
+            
+             if($(this).val() == "8"){
+                
+                $("#p2plusp1_con").show();
+                $("#p2plusp1_conone").show();
+                $("#p2plusp1_confour").show();
+                $("#p2plusp1_symbol_one").show();
+                $("#p2plusp1_symbol_two").show();
+                $("#symbolcontainer").hide();
+            }else{
+                $("#p2plusp1_con").hide();
+                $("#p2plusp1_conone").hide();
+                $("#p2plusp1_confour").hide();
+                $("#p2plusp1_contwo").hide();
+                $("#p2plusp1_conthree").hide();
+                $("#p2plusp1_symbol_one").hide();
+                $("#p2plusp1_symbol_two").hide();
+//                $("#symbolcontainer").show();
+                
+            }
+            
+           
+            
+            if ($(this).val() == "5") {
+                $("#trigger_con").show();
+                $("#trigger_con_one").show();
+                $("#trigger_con_two").show();
+                $("#symbolcontainer").show();
+            } else {
+                $("#trigger_con").hide();
+                $("#trigger_con_one").hide();
+                $("#trigger_con_two").hide();
+            }
+                   
+            
+        });
+    });
+</script>
+ 
+<script>
+    $(function () {
+        $("#select_trigger").change(function () {
+            
+          
+ });
+    });
+</script>
+
+<script>
+    $(function () {
+        $("#select_trigger").change(function () {
+            
+            
+ });
+    });
+</script>
+
+<script>
+    $(function () {
+        $("#mv_option").change(function () {
+            
+            if ($(this).val() == "MA") {
+                $("#ma_con").show();
+                $("#ma_con_one").show();
+//                $("#ma_con_two").show();
+            } else {
+               $("#ma_con").hide();
+                $("#ma_con_one").hide();
+                $("#ma_con_two").hide();
+            }
+            
+            if ($(this).val() == "(P-MA/MA)") {
+                $("#pa_ma_con").show();
+                $("#pa_ma_con_one").show();
+//                $("#pa_ma_con_two").show();
+            } else {
+               $("#pa_ma_con").hide();
+                $("#pa_ma_con_one").hide();
+//                $("#pa_ma_con_two").hide();
+            }
+            
+            if ($(this).val() == "MA avg") {
+                $("#ma_avg_con").show();
+                $("#ma_avg_con_one").show();
+                $("#ma_avg_con_two").show();
+                $("#pa_ma_con_two").hide();
+            } else {
+                $("#ma_avg_con").hide();
+                $("#ma_avg_con_one").hide();
+                $("#ma_avg_con_two").hide();
+            }
+            
+            if ($(this).val() == "P-MA/MA avg") {
+                $("#p_ma_ma_con").show();
+                $("#p_ma_ma_con_one").show();
+                $("#p_ma_ma_con_two").show();
+                $("#ma_avg_con_three").hide();
+            } else {
+              $("#p_ma_ma_con").hide();
+                $("#p_ma_ma_con_one").hide();
+                $("#p_ma_ma_con_two").hide();
+            }
+            
+            
+            
+        });
+        });
+ </script>
+ <script>
+    $(function () {
+        $("#selection_volume").change(function () {
+        
+           if ($(this).val() == "volume") {
+                $("#volume_optioncon").show();
+                $("#volume_optioncon_one").show();
+                $("#volume_optioncon_two").show();
+                $("#volume_avg_con_three").hide();
+            } else {
+              $("#volume_optioncon").hide();
+                $("#volume_optioncon_one").hide();
+                $("#volume_optioncon_two").hide();
+            }
+            
+            if ($(this).val() == "volume_avg") {
+                $("#volume_avg_con").show();
+                $("#volume_avg_con_one").show();
+                $("#volume_avg_con_two").show();
+                $("#volume_optioncon_three").hide();
+            } else {
+              $("#volume_avg_con").hide();
+                $("#volume_avg_con_one").hide();
+                $("#volume_avg_con_two").hide();
+            }
+        });
+        });
+ </script>
+ 
+ <script>
+    $(function () {
+        $("#select_parabolic").change(function () {
+        
+        if ($(this).val() == "parabolic_sar_sar") {
+                $("#parabolic_saroption").show();
+                $("#parabolic_saroption_one").show();
+            } else {
+              $("#parabolic_saroption").hide();
+                $("#parabolic_saroption_one").hide();
+            }
+            
+            if ($(this).val() == "parsar") {
+                $("#parsar_con").show();
+                $("#parsar_con_one").show();
+            } else {
+               $("#parsar_con").hide();
+                $("#parsar_con_one").hide();
+            }
+        });
+        });
+ </script>
+ 
+ <script>
+      $(function () {
+        $("#order_type").change(function () {
+            
+            if($(this).val()=="2"){
+               
+                $("#order-price-container").show();
+                $("#trigger-price-container").hide();
+            }else if($(this).val()=="3"){
+                
+               $("#order-price-container").show();
+               $("#trigger-price-container").show();
+            }
+            // else if($(this).val()=="1"){
+                
+            //      $("#trigger-price-container").show();
+            //       $("#order-price-container").hide();
+                 
+            // }
+             else if($(this).val()=="4"){
+                
+                 $("#trigger-price-container").show(); 
+                 $("#order-price-container").hide();
+                 
+            }
+            else{
+                
+                $("#order-price-container").hide();
+                $("#trigger-price-container").hide();
+            }
+            
+
+        });
+        });
+ 
+ </script>
+ 
+ <script>
+  $(function () {
+        $("#trigger_price_operator").change(function () {
+            
+            if($(this).val()=="6"){
+                
+                $("#price-am-one").show();
+                $("#price-am-two").show();
+                $("#price-am").hide();
+                
+            }
+            else{
+                
+               $("#price-am-one").hide();
+               $("#price-am-two").hide();
+               $("#price-am").show();
+                
+            }
+            
+         });
+        });
+ 
+ </script>
+ 
+ <script>
+      $(function () {
+        $("#trigger_ma_maOperator").change(function () {
+            
+            if($(this).val()=="6"){
+               
+                $("#ma_con_two").show();
+                $("#ma_con_three").show();
+                $("#ma_con_one").hide();
+               }else{
+                
+                $("#ma_con_two").hide();
+                $("#ma_con_three").hide();
+                $("#ma_con_one").show();
+               }
+            
+
+        });
+        });
+ 
+ </script>
+ 
+ <script>
+      $(function () {
+        $("#trigger_pma_pmaOperator").change(function () {
+            
+            if($(this).val()=="6"){
+               
+                $("#pa_ma_con_one").hide();
+                $("#pa_ma_con_two").show();
+                $("#pa_ma_con_three").show();
+            }else{
+                
+                $("#pa_ma_con_two").hide();
+                $("#pa_ma_con_three").hide();
+                $("#pa_ma_con_one").show();
+            }
+            
+
+        });
+        });
+ 
+ </script>
+ 
+ <script>
+ 
+ 
+    $(function () {
+        $("#trigger_maavg_maOperator").change(function () {
+            
+            if($(this).val()=="6"){
+               
+                $("#ma_avg_con_three").show();
+                $("#ma_avg_con_four").show();
+                $("#ma_avg_con_two").hide();
+                
+            }else{
+                
+                $("#ma_avg_con_three").hide();
+                $("#ma_avg_con_four").hide();
+                $("#ma_avg_con_two").show();
+                
+                
+            }
+            
+
+        });
+        });
+ 
+ </script>
+ 
+ <script>
+ 
+ 
+    $(function () {
+        $("#p_ma_ma_avg_operator").change(function () {
+            
+            if($(this).val()=="6"){
+               
+                $("#p_ma_ma_con_three").show();
+                $("#p_ma_ma_con_four").show();
+                $("#p_ma_ma_con_two").hide();
+                
+            }else{
+                
+                $("#p_ma_ma_con_three").hide();
+                $("#p_ma_ma_con_four").hide();
+                $("#p_ma_ma_con_two").show();
+                
+            }
+            
+
+        });
+        });
+ 
+ </script>
+ 
+ <script>
+ 
+ 
+    $(function () {
+        $("#trigger_rsi_maOperator").change(function () {
+            
+            if($(this).val()=="6"){
+               
+                $("#rsi_amount_two").show();
+                $('#rsi_amount_three').show();
+                $("#rsi_con_one").hide();
+                
+            }else{
+                
+                $("#rsi_amount_two").hide();
+                $('#rsi_amount_three').hide();
+                $('#rsi_amount_one').show();
+                
+            }
+            
+
+        });
+        });
+ 
+ </script>
+ 
+ 
+ <script>
+ 
+ 
+    $(function () {
+        $("#trigger_p2p1_maOperator").change(function () {
+            
+            if($(this).val()=="6"){
+               
+                $("#p_amount_two").show();
+                $("#p_amount_three").show();
+                $("#p_con_one").hide();
+                
+            }else{
+                
+                $("#p_amount_two").hide();
+                $("#p_amount_three").hide();
+                $("#p_con_one").show();
+                
+            }
+            
+
+        });
+        });
+ 
+ </script>
+ 
+ 
+ <script>
+ 
+ 
+    $(function () {
+        $("#trigger_simplevolume_maOperator").change(function () {
+            
+            if($(this).val()=="6"){
+               
+               $("#volume_optioncon_three").show();
+               $("#volume_optioncon_four").show();
+               $("#volume_optioncon_one").hide();
+                
+            }else{
+                
+                $("#volume_optioncon_three").hide();
+                $("#volume_optioncon_four").hide();
+                $("#volume_optioncon_one").show();
+                
+            }
+            
+
+        });
+        });
+ 
+ </script>
+ 
+ <script>
+ 
+ 
+    $(function () {
+        $("#trigger_volumeavg_maOperator").change(function () {
+            
+            if($(this).val()=="6"){
+               
+                $("#volume_avg_con_three").show();
+                $("#volume_avg_con_four").show();
+               $("#volume_avg_con_two").hide();
+                
+            }else{
+                
+                $("#volume_avg_con_three").hide();
+                $("#volume_avg_con_four").hide();
+                $("#volume_avg_con_two").show();
+            }
+            
+
+        });
+        });
+ 
+ </script>
+ 
+ <script>
+ 
+ 
+    $(function () {
+        $("#trigger_p2minusp1_maOperator").change(function () {
+            
+            if($(this).val()=="6"){
+               
+                $("#p2minusp1_contwo").show();
+                $("#p2minusp1_conthree").show();
+               $("#p2minusp1_conone").hide();
+                $("#p2minusp1_confour").hide();
+                
+            }else{
+                
+               $("#p2minusp1_contwo").hide();
+               $("#p2minusp1_conthree").hide();
+               $("#p2minusp1_conone").show();
+                $("#p2minusp1_confour").show();
+            }
+            
+
+        });
+        });
+ 
+ </script>
+ 
+ 
+ <script>
+ 
+ 
+    $(function () {
+        $("#trigger_p2plusp1_maOperator").change(function () {
+            
+             if($(this).val()=="6"){
+               
+                $("#p2plusp1_contwo").show();
+                $("#p2plusp1_conthree").show();
+               $("#p2plusp1_conone").hide();
+                $("#p2plusp1_confour").hide();
+                
+            }else{
+                
+               $("#p2plusp1_contwo").hide();
+               $("#p2plusp1_conthree").hide();
+               $("#p2plusp1_conone").show();
+                $("#p2plusp1_confour").show();
+            }
+            
+
+        });
+        });
+ 
+ </script>
+
+</body>
+
+</html>

@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Smart Invest</title>
+   {% load static %}
+  <!-- Custom fonts for this template-->
+  <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+
+  <!-- Page level plugin CSS-->
+  <link href="{% static 'vendor/datatables/dataTables.bootstrap4.css' %}" rel="stylesheet">
+
+  <!-- log out logo-->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+  <!-- Custom styles for this template-->
+  <link href="{% static 'css/sb-admin.css' %}" rel="stylesheet">
+<!--<link href="css/login.css" rel="stylesheet">-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+<body id="page-top">
+
+  <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
+
+    <a class="navbar-brand mr-1" href="{% url 'home' %}">Smart Invest</a>
+
+    <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
+      <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Navbar Search -->
+    <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+    {% csrf_token %}
+      <div class="input-group">
+        <!--<input type="text" class="form-control" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">-->
+        <div class="input-group-append">
+         
+    <ul class="navbar-nav ml-auto ml-md-0">
+      <li class="nav-item dropdown no-arrow mx-1">
+        <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <!--<i class="fas fa-envelope fa-fw"></i>-->
+          <p style="font-size:20px">{{request.user.username}}</p>
+          
+          <!--<span class="badge badge-danger"></span>-->
+        </a>
+      <li class="nav-item dropdown no-arrow">
+        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="fas fa-user-circle fa-fw"></i>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+          <!--<a class="dropdown-item" href="#">Settings</a>-->
+          <!--<a class="dropdown-item" href="#">Activity Log</a>-->
+          <div class="dropdown-divider"></div>
+          <!--<a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">Logout</a>-->
+        </div>
+      </li>
+    </ul>
+
+  </nav>
+
+  <style>
+    .btnn {
+     background-color:gray;
+     border: none;
+     color: white;
+     padding: 9px 15px;
+     cursor: pointer;
+     font-size: 10px;
+     float: right;
+   }
+   
+    /* Darker background on mouse-over  */
+    .btnn:hover {
+     background-color: gray;
+   } 
+   </style>
+
+  <div id="wrapper">
+
+   <!------------ edit: Sidebar --------  -->     
+
+      <nav class="sidebar" >
+          <a class="nav-link" href="{% url 'home' %}"></a>
+          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <ul>
+                {% comment %} <li class="active"><a href="{% url 'home' %}">Dashboard</a></li> {% endcomment %}
+                <li>
+                    <a href="#" class="feat-btn" style="color:white;">Individual
+                        <span class="fas fa-caret-down first"></span>
+                    </a>
+                    <ul class="feat-show">
+                        <li><a href="{% url 'home' %}">Dashboard</a> </li>
+                        <li> <a href="{% url 'save_multiple_trigger' %}" >  Add Trigger</a> </li>
+                        <li> <a href="{% url 'save_multiple_order' %}" > Add Order</a> </li>
+                        <li> <a href="{% url 'trigger_list' %}" > Trigger List</a> </li>
+        
+                    </ul>
+                </li>
+                <li>
+                    <a href="#" class="serv-btn" style="color:white;">Group<span class="fas fa-caret-down second"></span></a>
+                        <ul class="serv-show">
+                            <li> <a href="{% url 'groups_order_listing' %}" > Group Dashboard</a> </li>
+                            <li> <a href="{% url 'create_group' %}" >Create Group</a> </li>
+                            <li> <a href="{% url 'insert_group_trigger' %}" > Add Trigger</a> </li>
+                            <li> <a href="{% url 'insert_group_order' %}" > Add Order</a> </li>
+                            <li> <a href="{% url 'group_listing' %}" > Group List</a> </li>
+                            {% comment %} <li> <a href="{% url 'group_trigger_listing' %}" >  Group Trigger List</a> </li> {% endcomment %}
+                        </ul>
+                </li>
+                <li>
+                    <a href="{% url 'user_logout' %}" style="color:white;padding-left:12px;"><i class="fa fa-sign-out" >  </i>Log Out</a>
+                </li>
+            </ul>
+      </nav>
+      
+      <!------------ edit: Sidebar --------  -->  
+    <div id="content-wrapper">
+<!--table start-->
+<div class="panel-wrap">
+  <div class="panel">
+
+<div>
+  <h1 style="text-align: center;"><b>INDIVIDUAL DASHBOARD</b></h1>
+
+</div>
+
+     <div class="row">
+          <div class="col-lg-8">
+            <h2><b>Open Orders({{openorder}})</b></h2></div>
+            <div class="col-lg-4">
+            <a href="{% url 'open_order_excel' %}"><button type="button" class="btnn"><i class="fa fa-download"></i></button></a>
+
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered" id="tableOpenOrders" width="100%" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th style="background-color:#FFA500" id="sno" >S.no</th>
+                    <th  style="background-color:#FFA500" id="date"><a >Date/Time</a></th>
+                    <th  style="background-color:#FFA500" id="trigger">Trigger</th>                   
+                    <th  style="background-color:#FFA500;"></th>
+                    <th  style="background-color:#FFA500;"></th>
+                    <th  style="background-color:#FFA500;"></th>
+                    </tr>
+
+                    {% comment %} {{content}} {% endcomment %}
+                    {% for i in trigger_name_list %}
+
+                    <tr>
+                     <td></td>
+                      {% comment %} <td>{{ i.created_on }}</td> {% endcomment %}
+                      <td>{{ i.order_created_on }}</td>
+                      <td>{{ i.trigger_name }}</td>                      
+                      <input type="hidden" value="{{ i.trigger_name }}" id="triggername">
+                      <td><a href= "trigger_order_list/{{i.trigger_name}}"><button type="button" class="btn btn-info">Open</button></a></td>
+                      <td ><a href= "#"  ><button style="background-color: #C3B2B2;" type="button" class="btn" >Cancel</button></a></td>
+                      <td><button  style="background-color:#ff6600;" type="button"  onclick="deleteTriggerAndOrder('{{i.trigger_name}}')" class="btn">Delete</button></td>
+                       {% comment %} <td><a href= "delete_trigger"><button  style="background-color:#ff6600;" type="button"  class="btn">Delete</button></a></td> {% endcomment %}
+
+                 {% endfor %}
+                  </tr>
+                 
+                </thead>
+              </table>
+              {% include 'pagination.html' with page=executed_trigger_list %}
+            </div>
+          </div>
+
+          
+          <!--<div class="card-footer small text-muted"></div>-->
+        </div>
+<!--end table1-->
+<!--table2-->
+
+
+  <div class="row">
+          <div class="col-lg-8">
+           
+            <h2><b>Executed Orders({{executeorder}})</b></h2></div>
+            <div class="col-lg-4">
+            <a href="{% url 'execute_order_excel' %}"><button type="button" class="btnn"><i class="fa fa-download"></i></button></a>
+          </div>
+        </div>
+
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered" id="tableExecutedOrders" width="100%" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th style="background-color:#FFA500" id="snos" >S.no</th>
+                    {% comment %} <th  style="background-color:#FFA500" id="datetime">Date/Time</th> {% endcomment %}
+                    <th  style="background-color:#FFA500" >Date/Time</th>
+                    <th  style="background-color:#FFA500" >Trigger</th>
+
+                    <th  style="background-color:#FFA500" ></th>
+                    <th  style="background-color:#FFA500;"></th>
+                    <th  style="background-color:#FFA500" ></th>
+                    {% comment %} <th  style="background-color:#FFA500" >Trigger Instrument</th> {% endcomment %}
+                    
+               </tr>
+                
+                      
+                  
+                    {% for i in executed_trigger_list %}
+
+                    <tr>
+                    <td></td>
+                      <td>{{ i.order_created_on }}</td>
+                      <td>{{ i.trigger_name }}</td>
+                      {% comment %} <td>{{ i.symbol }}</td> {% endcomment %}
+                      {% comment %} <td>{{ i.trigger_condition }}</td> {% endcomment %}
+                       {% comment %} <td><button type="button" id="" class="btn btn-info">Open</button></td> {% endcomment %}
+                    <td><a href= "executed_trigger_order_list/{{i.trigger_name}}"  ><button type="button" class="btn btn-info">Open</button></a></td>
+
+                      <td ><a href= "#"  ><button style="background-color: #C3B2B2;" type="button" class="btn" >Cancel</button></a></td>
+                      <td><a href= "trigger_order_list/{{i.trigger_name}}"><button  style="background-color:#ff6600;" type="button" class="btn">Delete</button></a></td>
+
+                     
+                    </tr>
+                    
+                  {% endfor %}
+                  
+                 
+                </thead>
+              </table>
+              {% include 'pagination.html' with page=executed_trigger_list %}
+            </div>
+          </div>
+          <!--<div class="card-footer small text-muted"></div>-->
+        </div>
+<!--end table2-->
+     
+      <!-- Sticky Footer -->
+      <footer class="sticky-footer">
+        <div class="container my-auto">
+          <div class="copyright text-center my-auto">
+            <span>Copyright ©Smart Invest 2020</span>
+          </div>
+        </div>
+      </footer>
+
+    </div>
+    <!-- /.content-wrapper -->
+
+  </div>
+  <!-- /#wrapper -->
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  <!-- Logout Modal-->
+  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog " >
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+          <a class="btn btn-primary" href="login.html">Logout</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  <div class="modal fade" id="openmodal" role="dialog">
+                <div class="modal-dialog modal-xl">
+                
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title"></h4>
+                          <button type="button" class="close" data-dismiss="modal">&times;</button>
+                          
+                        </div>
+                        <div class="modal-body1">
+                          
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                  
+                </div>
+            </div>
+
+  <!-- Bootstrap core JavaScript-->
+
+   <script>
+    $('#date').click(function(){
+    var table = $(this).parents('table').eq(0)
+    var rows = table.find('tr:gt(0)').toArray().sort(comparer($(this).index()))
+    this.asc = !this.asc
+    if (!this.asc){rows = rows.reverse()}
+    for (var i = 0; i < rows.length; i++){table.append(rows[i])}
+})
+function comparer(index) {
+    return function(a, b) {
+        var valA = getCellValue(a, index), valB = getCellValue(b, index)
+        return $.isNumeric(valA) && $.isNumeric(valB) ? valA - valB : valA.toString().localeCompare(valB)
+    }
+}
+function getCellValue(row, index){ return $(row).children('td').eq(index).text() }
+
+  </script>
+   <script>
+    $('#trigger').click(function(){
+    var table = $(this).parents('table').eq(0)
+    var rows = table.find('tr:gt(0)').toArray().sort(comparer($(this).index()))
+    this.asc = !this.asc
+    if (!this.asc){rows = rows.reverse()}
+    for (var i = 0; i < rows.length; i++){table.append(rows[i])}
+})
+function comparer(index) {
+    return function(a, b) {
+        var valA = getCellValue(a, index), valB = getCellValue(b, index)
+        return $.isNumeric(valA) && $.isNumeric(valB) ? valA - valB : valA.toString().localeCompare(valB)
+    }
+}
+function getCellValue(row, index){ return $(row).children('td').eq(index).text() }
+
+  </script>
+ <script>
+    $('#snos').click(function(){
+    var table = $(this).parents('table').eq(0)
+    var rows = table.find('tr:gt(0)').toArray().sort(comparer($(this).index()))
+    this.asc = !this.asc
+    if (!this.asc){rows = rows.reverse()}
+    for (var i = 0; i < rows.length; i++){table.append(rows[i])}
+})
+function comparer(index) {
+    return function(a, b) {
+        var valA = getCellValue(a, index), valB = getCellValue(b, index)
+        return $.isNumeric(valA) && $.isNumeric(valB) ? valA - valB : valA.toString().localeCompare(valB)
+    }
+}
+function getCellValue(row, index){ return $(row).children('td').eq(index).text() }
+
+  </script>
+
+   <script>
+    $('#datetime').click(function(){
+    var table = $(this).parents('table').eq(0)
+    var rows = table.find('tr:gt(0)').toArray().sort(comparer($(this).index()))
+    this.asc = !this.asc
+    if (!this.asc){rows = rows.reverse()}
+    for (var i = 0; i < rows.length; i++){table.append(rows[i])}
+})
+function comparer(index) {
+    return function(a, b) {
+        var valA = getCellValue(a, index), valB = getCellValue(b, index)
+        return $.isNumeric(valA) && $.isNumeric(valB) ? valA - valB : valA.toString().localeCompare(valB)
+    }
+}
+function getCellValue(row, index){ return $(row).children('td').eq(index).text() }
+
+  </script>
+ <script>
+    $('#sno').click(function(){
+    var table = $(this).parents('table').eq(0)
+    var rows = table.find('tr:gt(0)').toArray().sort(comparer($(this).index()))
+    this.asc = !this.asc
+    if (!this.asc){rows = rows.reverse()}
+    for (var i = 0; i < rows.length; i++){table.append(rows[i])}
+})
+function comparer(index) {
+    return function(a, b) {
+        var valA = getCellValue(a, index), valB = getCellValue(b, index)
+        return $.isNumeric(valA) && $.isNumeric(valB) ? valA - valB : valA.toString().localeCompare(valB)
+    }
+}
+function getCellValue(row, index){ return $(row).children('td').eq(index).text() }
+
+  </script>
+
+  <script >
+    var addSerialNumber = function () {
+    var k  = 0;
+    $('#tableExecutedOrders tr').each(function(k) {
+        $(this).find('td:nth-child(1)').html(k);
+    });
+};
+addSerialNumber();
+  </script>
+
+  <script >
+    var addSerialNumber2 = function () {
+    var m  = 0;
+    $('#tableOpenOrders tr').each(function(m) {
+        $(this).find('td:nth-child(1)').html(m);
+    });
+};
+addSerialNumber2();
+  </script>
+
+  
+ 
+   <!-- Bootstrap core JavaScript-->
+  <link href=" {% static "vendor/datatables/dataTables.bootstrap4.css" %}" rel="stylesheet">
+
+ <script src="{% static 'js/projectjs/group-order.js' %}"></script>
+
+
+  <script  src="{% static 'vendor/jquery/jquery.min.js'  %}"></script>
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+  <!-- Page level plugin JavaScript-->
+  <script src="{% static 'vendor/chart.js/Chart.min.js' %}"></script>
+  <script src="{% static 'vendor/datatables/jquery.dataTables.js' %}"></script>
+  <script src="{% static 'vendor/datatables/dataTables.bootstrap4.js' %}"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="{% static 'js/sb-admin.min.js' %}"></script>
+
+  <!-- Demo scripts for this page-->
+  <script src="{% static 'js/demo/datatables-demo.js' %}"></script>
+  <!--<script src="js/demo/chart-area-demo.js"></script>-->
+ <script src="{% static 'js/custom.js' %}"></script>
+<script>
+
+      $('.feat-btn').click(function(){
+        $('nav ul .feat-show').toggleClass("show1");
+        $('nav ul .first').toggleClass("rotate1");
+      });
+      $('.feat-btn').click(function(){
+        $('nav ul .feat-show').toggleClass("show");
+     
+      });
+      $('.serv-btn').click(function(){
+        $('nav ul .serv-show').toggleClass("show1");
+        $('nav ul .second').toggleClass("rotate");
+      });
+      $('nav ul li').click(function(){
+        $(this).addClass("active").siblings().removeClass("active");
+      });
+    </script>
+
+
+  <!--<script src="js/demo/chart-area-demo.js"></script>-->
+<!--   <script>
+    var table = $('#tableOpenOrders');
+    
+    $('#s.no, #date')
+        .wrapInner('<span title="sort this column"/>')
+        .each(function(){
+            
+            var th = $(this),
+                thIndex = th.index(),
+                inverse = false;
+            
+            th.click(function(){
+                
+                table.find('td').filter(function(){
+                    
+                    return $(this).index() === thIndex;
+                    
+                }).sortElements(function(a, b){
+                    
+                    return $.text([a]) > $.text([b]) ?
+                        inverse ? -1 : 1
+                        : inverse ? 1 : -1;
+                    
+                }, function(){
+                    
+                    // parentNode is the element we want to move
+                    return this.parentNode; 
+                    
+                });
+                
+                inverse = !inverse;
+                    
+            });
+                
+        });
+  </script> -->
+
+ 
+ {% comment %} <script src="dashboard/js/custom.js"></script> {% endcomment %}
+   {% comment %} 
+   <script>
+      $(document).ready(function(){
+   
+   $("#add_trigger_btn").submit(function(){
+
+   var user_id=$("#user_id").val();
+     $.ajax({  
+           url:"http://127.0.0.1:8000/trading/",
+           method:"POST",
+           data:{user_id:user_id}  
+     });
+   }); 
+});
+   </script> 
+   {% endcomment %}
+
+   {% comment %} <script>
+        
+        function valueSender()
+{
+  
+var a = document.getElementById("getuserid").value;
+alert (a);
+localStorage.setItem("myValue", a);
+window.location.href="trading.html";
+}
+        
+    </script> {% endcomment %}
+
+
+      <script type='text/javascript'>
+            $(document).ready(function(){
+
+                $('#opentrigger').click(function(){
+
+                  var triggername=$("#triggername").val();
+                   
+                    
+                    // debugger;
+
+                    // AJAX request
+
+                    $.ajax({
+                        //url: 'popup.html',
+                        url: 'http://127.0.0.1:8000/fetch_trigger/'+triggername,
+                        type: 'post',
+                        data: {},
+                        success: function(response){ 
+                          debugger; 
+
+                          // debugger;
+                            // Add response in Modal body
+                            $('.modal-body1').html(response); 
+                            debugger;
+
+                            // Display Modal
+                            $('#openmodal').modal('show'); 
+                        }
+                    });
+                  
+                });
+
+            });
+            </script>
+
+
+             <script>
+
+              function deleteorder(id){ 
+
+
+          debugger;
+             
+           if(confirm("Are you sure you want to delete ?")) {  
+               $.ajax({
+                   url:"http://127.0.0.1:8000/login_view/home/delete/",
+                   method:"POST",
+                  data:JSON.stringify
+                  ({
+                        "data":{"id":id}
+                   }),
+                  
+                  dataType: "json",
+                  contentType: "application/json",
+                  //data:'id='+id,  
+
+                    success: function(result){
+                    if(result.status=="success"){
+                       // window.location.reload();
+                       alert("order deleted sucessfully.") 
+                       window.location.reload();      
+                    }
+                    else{
+                       alert("Error occured !");
+                    }
+
+                   
+
+                   }
+                   
+               });
+         
+     
+          }
+
+      }
+</script>
+
+        <script>
+
+              function deleteorderexecute(id){ 
+
+
+          debugger;
+             
+              if(confirm("Are you sure you want to delete ?")) {  
+               $.ajax({
+                   url:"http://127.0.0.1:8000/login_view/home/delete/",
+                   method:"POST",
+                  data:JSON.stringify
+                  ({
+                        "data":{"id":id}
+                   }),
+                  
+                  dataType: "json",
+                  contentType: "application/json",
+                  //data:'id='+id,  
+
+                    success: function(result){
+                    if(result.status=="success"){
+                       // window.location.reload();
+                       alert("order deleted sucessfully.") 
+                       window.location.reload();      
+                    }
+                    else{
+                       alert("Error occured !");
+                    }
+
+                   
+
+                   }
+                   
+               });
+         
+     
+          }
+
+      }
+
+</script>
+
+
+
+    <script>
+
+              function cancleorder(id){ 
+
+alert("--------------------------------------------------"+id);
+          debugger;
+             
+           if(confirm("Are you sure you want to cancel cronjob ?")) {  
+               $.ajax({
+                   url:"http://127.0.0.1:8000/login_view/home/cancel_order/",
+                   method:"POST",
+                  data:JSON.stringify
+                  ({
+                        "data":{"id":id}
+                   }),
+                  
+                  dataType: "json",
+                  contentType: "application/json",
+                  //data:'id='+id,  
+
+                    success: function(result){
+                    if(result.status=="success"){
+                       // window.location.reload();
+                       alert("Group order cancled sucessfully.----------------------") 
+                       window.location.reload();      
+                    }
+                    else{
+                       alert("Error occured !");
+                    }
+
+                   }
+                   
+               });
+         
+     
+          }
+
+      }
+
+</script>
+
+    <script>
+
+              function restart_order(id){ 
+
+alert("restart cronjob"+id);
+          debugger;
+             
+           if(confirm("Are you sure you want to restart order execution ?")) {  
+               $.ajax({
+                   url:"http://127.0.0.1:8000/login_view/home/cancel_order/",
+                   method:"POST",
+                  data:JSON.stringify
+                  ({
+                        "data":{"id":id}
+                   }),
+                  
+                  dataType: "json",
+                  contentType: "application/json",
+                  //data:'id='+id,  
+
+                    success: function(result){
+                    if(result.status=="success"){
+                       // window.location.reload();
+                       alert("Order execution started.") 
+
+
+                      $.ajax({
+                      
+                      url:"http://127.0.0.1:8000/onlinetrigger/",
+
+                      success: function(result){
+                      if(result.status=="success")
+                      { 
+                      alert("Order executed successfully")
+                      }
+                    }
+
+                      });
+
+//                       window.location.reload();      
+                    }
+                    else{
+                       alert("Error occured !");
+                    }
+
+                   }
+                   
+               });
+         
+     
+          }
+
+      }
+      
+</script>
+
+<script>
+
+  function opentriggerr(id)
+  { 
+
+    debugger;
+             
+      if(confirm("Opening trigger and order")) 
+      {  
+        $.ajax(
+          {
+            url:"http://127.0.0.1:8000/fetch_trigger_without_para/"+id,
+            method:"GET",      
+            dataType: "json",
+            contentType: "application/json",
+            data:JSON.stringify
+            ({
+               //"data":{"trigger_name":id}
+            }),
+                  //data:'id='+id,  
+
+            success: function(result)
+            {
+              if(result.status=="success")
+              {
+                // window.location.reload();
+                alert("order deleted sucessfully.") 
+                alert(result.triggers)
+
+            //$.ajax(
+            //          {
+              //          url:"http://127.0.0.1:8000/fetch_trigger_without_para/"+id,
+                //        method:"GET",      
+                  //      dataType: "json",
+                    //    contentType: "application/json",
+                      //  data:JSON.stringify
+
+                     // });
+
+
+                window.location.reload();      
+              }
+              else
+              {
+                alert("Error occured !");
+              }
+            }
+          });
+        }
+  }
+</script>
+
+
+    <script>
+
+              function deleteTriggerAndOrder(id){ 
+
+
+          debugger;
+             
+           if(confirm("Are you sure you want to delete ?")) {  
+               $.ajax({
+                   url:"http://127.0.0.1:8000/login_view/home/deleteTriggerOrder",
+                   method:"POST",
+                  data:JSON.stringify
+                  ({
+                        "data":{"id":id}
+                   }),
+                  
+                  dataType: "json",
+                  contentType: "application/json",
+                  //data:'id='+id,  
+
+                    success: function(result){
+                    if(result.status=="success"){
+                       // window.location.reload();
+                       alert("order deleted sucessfully.") 
+                       window.location.reload();      
+                    }
+                    else{
+                       alert("Error occured !");
+                    }
+
+                   
+
+                   }
+                   
+               });
+         
+     
+          }
+
+      }</script>
+
+        
+</body>
+
+</html>

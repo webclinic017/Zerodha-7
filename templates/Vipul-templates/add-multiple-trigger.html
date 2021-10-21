@@ -1,0 +1,1611 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Smart Invest</title>
+   {% load static %}
+
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+
+  <!-- Custom fonts for this template-->
+  <link href=" {% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+
+
+  <!-- Page level plugin CSS-->
+  <link href=" {% static 'vendor/datatables/dataTables.bootstrap4.css' %}" rel="stylesheet">
+
+  <!-- Custom styles for this template-->
+  <link href="{% static 'css/sb-admin.css' %}" rel="stylesheet">
+<!--<link href="css/login.css" rel="stylesheet">-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+ <!--<script src="../sendformdata.js"></script>-->
+
+
+ <script src="{% static 'js/projectjs/multiple-trigger.js' %}"></script>
+ <script src="{% static 'js/projectjs/getinstruments.js' %}"></script>
+ <script src="{% static 'js/projectjs/getorderinstruments.js' %}"></script>
+ <script src="{% static 'js/projectjs/p2p1symbolone.js' %}"></script>
+ <script src="{% static 'js/projectjs/p2p1symboltwo.js' %}"></script>
+
+ 
+</head>
+
+<body id="page-top">
+
+  <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
+
+    <a class="navbar-brand mr-1" href="{% url 'home' %}">Smart Invest</a>
+
+    <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
+      <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Navbar Search -->
+    <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0" style="visibility: hidden;">
+      <div class="input-group">
+        <!--<input type="text" class="form-control" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">-->
+        <div class="input-group-append">
+          <button class="btn btn-primary" type="button">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+      </div>
+    </form>
+
+    <!-- Navbar -->
+    <ul class="navbar-nav ml-auto ml-md-0">
+<!--      <li class="nav-item dropdown no-arrow mx-1">
+        <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="fas fa-bell fa-fw"></i>
+          <span class="badge badge-danger">9+</span>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="alertsDropdown">
+          <a class="dropdown-item" href="#">Action</a>
+          <a class="dropdown-item" href="#">Another action</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">Something else here</a>
+        </div>
+      </li>-->
+      <li class="nav-item dropdown no-arrow mx-1">
+        <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <!--<i class="fas fa-envelope fa-fw"></i>-->
+          <p style="font-size:20px">{{current_user}}</p>
+          <!--<span class="badge badge-danger"></span>-->
+        </a>
+<!--        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="messagesDropdown">
+          <a class="dropdown-item" href="#">Action</a>
+          <a class="dropdown-item" href="#">Another action</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">Something else here</a>
+        </div>
+      </li>-->
+      <li class="nav-item dropdown no-arrow">
+        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="fas fa-user-circle fa-fw"></i>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+          <!--<a class="dropdown-item" href="#">Settings</a>-->
+          <!--<a class="dropdown-item" href="#">Activity Log</a>-->
+          <div class="dropdown-divider"></div>
+          <!--<a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">Logout</a>-->
+        </div>
+      </li>
+    </ul>
+
+  </nav>
+
+  <div id="wrapper">
+
+   <!------------ edit: Sidebar --------  -->     
+
+      <nav class="sidebar" >
+          <a class="nav-link" href="{% url 'home' %}"></a>
+          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <ul>
+                {% comment %} <li class="active"><a href="{% url 'home' %}">Dashboard</a></li> {% endcomment %}
+                <li>
+                    <a href="#" class="feat-btn" style="color:white;">Individual
+                        <span class="fas fa-caret-down first"></span>
+                    </a>
+                    <ul class="feat-show">
+                        <li><a href="{% url 'home' %}">Dashboard</a> </li>
+
+                        <li> <a href="{% url 'save_multiple_trigger' %}" >  Add Trigger</a> </li>
+                        <li> <a href="{% url 'save_multiple_order' %}" > Add Order</a> </li>
+                        <li> <a href="{% url 'trigger_list' %}" > Trigger List</a> </li>
+        
+                    </ul>
+                </li>
+                <li>
+                    <a href="#" class="serv-btn" style="color:white;">Group<span class="fas fa-caret-down second"></span></a>
+                        <ul class="serv-show">
+                            <li> <a href="{% url 'groups_order_listing' %}" > Group Dashboard</a> </li>
+                            <li> <a href="{% url 'create_group' %}" >Create Group</a> </li>
+                            <li> <a href="{% url 'insert_group_trigger' %}" > Add Trigger</a> </li>
+                            <li> <a href="{% url 'insert_group_order' %}" > Add Order</a> </li>
+                            <li> <a href="{% url 'group_listing' %}" > Group List</a> </li>
+                            {% comment %} <li> <a href="{% url 'group_trigger_listing' %}" >  Group Trigger List</a> </li> {% endcomment %}
+                        </ul>
+                </li>
+                <li>
+                    <a href="{% url 'user_logout' %}" style="color:white;padding-left:12px;"><i class="fa fa-sign-out" >  </i>Log Out</a>
+                </li>
+            </ul>
+      </nav>
+      
+      <!------------ edit: Sidebar --------  -->  
+    <div id="content-wrapper">
+<!--table start-->
+<div class="panel-wrap">
+  <div class="panel">
+<div class="container">
+    <div class="row">
+<div class="col-sm-12">
+        <!--<div class="me-blog-two me-padder-top-less me-padder-bottom" style="padding-bottom:30px">-->
+        <div class="container" style="padding-top:30px">
+           
+           
+                 <!---->
+                  <div class="col-sm-6" style="margin-right:10px;padding-left:10px">
+                <h1 style="border-bottom: 2px solid #ffb628;font-size:30px!important;background-color:#FFA500;padding:8px;padding-right:30px"><center><b> Create Trigger</b></center></h1>
+            </div>
+        <!--</div>-->
+        </div>
+    
+    <section>
+        <form action="" id="triggerform">
+        <div class="container-fluid">
+            <div class="row">
+                 <!--<div class="col-lg-4"></div>-->
+            <div class="col-lg-6">
+     <div class="form-group">
+                    <label for="exchange"style="font-weight:700;font-size:16px">Trigger Name</label>
+                    <input style="background-color:#E9ECEF;font-size:16px" class="form-control" type="text" name="trigger_name" id="trigger_name" placeholder="Trigger Name">
+                </div>
+            </div> 
+                 <div class="col-lg-4"></div>
+                  
+      <div class="col-lg-2"></div>     
+            <div class="col-lg-6">
+     <div class="form-group">
+                    <label for="exchange"style="font-weight:700;font-size:16px">Exchange</label>
+                    <select class="form-control" id="exchange"  style="background-color:#E9ECEF;font-size:16px;">
+                         <option>Select Exchange</option>
+                         <option value="4">NSE</option>
+                         <option value="1">BSE</option>
+                         <option value="3">NFO</option>
+                         <option value="2">MCX</option>
+          </select>
+                </div>
+            </div> 
+                 <div class="col-lg-4"></div>
+                  
+      <div class="col-lg-2"></div>
+      
+                 
+                 <div class="col-lg-6" >
+                 <div class="form-group" id="symbolcontainer">
+      <label for="symbol"style="font-weight:700;font-size:16px">Symbol</label>
+      <input  style="background-color:#E9ECEF;font-size:16px" type="text" class="form-control" id="symbol" placeholder="Symbol" name="smbl;" >
+      <ul class="list-group" id="result"></ul>
+      <div style="display: none;"><input type="text" id="instrument_token"></div>
+    </div></div>
+    
+    <div class="col-lg-4"></div>
+       <div class="col-lg-2"></div>
+     
+      
+   
+      
+       <div class="col-lg-6">
+                <div class="form-group">
+                    <label for="trigger_condition" style="font-weight:700;font-size:16px">Trigger Condition</label>
+                   <select class="form-control"  style="background-color:#E9ECEF;font-size:16px"  id="select_trigger">
+                      <option>Select Trigger Condition</option>
+                      <option value="1" id="price">Price</option>
+                      <option  value="2" id="movingaverage">Moving Average</option>
+                      <option  value="3" id="volume">Volume</option>
+                      <option  value="4" id="p">(P2-P1)/P1</option>
+                      <option  value="5" id="trigger_placed">Triggerif order is placed</option>
+                      <option  value="6" id="rsi">RSI </option>
+                      <option  value="7" id="rsi">P1 - P2</option>
+                      <option  value="8" id="rsi">P1 + P2</option>
+                      <!--<option  value="7" id=""></option>-->
+    </select>
+                </div></div>
+            
+               <div class="col-lg-4"></div>
+     <div class="col-lg-2"></div>
+      
+     
+            <div class="col-lg-4" id="price-con" style="display: none">
+     <div class="form-group">
+                    <label for="price" style="font-weight:700;font-size:16px;">Price</label>
+                    <select class="form-control" id="trigger_price_operator">
+          <option>Select Price Operator</option>
+          <option value="1" >>=</option>
+          <option value="2" ><=</option>
+          <option value="3" >></option>
+          <option value="4" ><</option>
+          <option value="5" >=</option>
+          <option value="6" >between</option>
+          </select>
+                </div>
+            </div> 
+             <div class="col-lg-4"  id="price-am" style="margin-top:10px; display: none;">
+                 <div class="form-group">
+      <label for="price"></label>
+      <input style="font-size:16px" type="text" class="form-control" id="trigger_price_amount" placeholder="Amount" name="price" >
+    </div></div>
+     <div class="col-lg-4"  id="price-am-one" style="margin-top:10px; display: none;">
+                 <div class="form-group">
+      <label for="price"></label>
+      <input style="font-size:16px" type="text" class="form-control" id="trigger_price_amount_one" placeholder="Amount" name="price" >
+    </div></div>
+     <div class="col-lg-4"  id="price-am-two" style="margin-top:10px; display: none;">
+                 <div class="form-group">
+      <label for="price"></label>
+      <input style="font-size:16px" type="text" class="form-control" id="trigger_price_amount_two" placeholder="Amount" name="price" >
+    </div></div>
+            
+            
+               
+            
+      <div class="col-lg-4"  style="display: none" id="moving_average">
+      <div class="form-group">
+                    <label for="moving_avg" style="font-weight:700;font-size:16px">Moving Average</label>
+                     <select class="form-control" style="font-size:16px" id="mv_option">
+                          <option>Select Moving average</option>
+          <option value="MA">MA</option>
+          <option value="(P-MA/MA)">(P-MA)/MA</option>
+          <option value="MA avg">MA avg</option>
+          <option value="P-MA/MA avg">(P-MA)/MA avg</option>
+          </select>
+      </div>
+      </div>     
+            
+        
+               <div class="col-lg-4" style="display: none" id="moving_average_two"></div>
+               
+               <div class="col-lg-4" style="display: none" id="moving_average_one"></div>
+         
+      <div class="col-lg-3" style="display: none" id="moving_average_time_frame" >
+     <div class="form-group">
+                    <label for="time_frame" style="font-weight:700;font-size:16px">Time Frame</label>
+                    <select class="form-control" style="font-size:16px" id="trigger_ma_time_frame">
+                            <option>Select Time Frame</option>
+                            <option value="minute" data-type="minute" data-duration="1">1min</option>
+                            <option value="2minute" data-type="minute" data-duration="2">2min</option>
+                            <option value="3minute" data-type="minute" data-duration="3">3min</option>
+                            <option value="4minute" data-type="minute" data-duration="4">4min</option>
+                            <option value="5minute" data-type="minute" data-duration="5">5min</option>
+                            <option value="10minute" data-type="minute" data-duration="10">10min</option>
+                            <option value="15minute" data-type="minute" data-duration="15">15min</option>
+                            <option value="30minute" data-type="minute" data-duration="30">30min</option>
+                            <option value="60minute" data-type="minute" data-duration="60">60min</option>
+                            <option value="day" data-type="day" data-duration="1">1D</option>
+                            
+                            
+                            
+          </select>
+                </div>
+        </div>  
+             
+            <div class="col-lg-3" style="display: none" id="moving_average_period">
+                 <div class="form-group">
+      <label for="time_frame" style="font-weight:700;font-size:16px">Period</label>
+      <input style="font-size:16px" type="text" class="form-control" id="trigger_ma_period" placeholder="Period" name="period" >
+    </div></div>
+      <div class="col-lg-3" style="display: none" id="moving_average_period">
+     <div class="form-group">
+                    <label for="field" style="font-weight:700;font-size:16px">Field</label>
+                    <select class="form-control" style="font-size:16px" id="trigger_mv_field">
+                          <option>Select Field</option>
+          <option>Open</option>
+          <option>High</option>
+          <option>Low</option>
+          <option>Close</option>
+          </select>
+                </div>
+            </div>     
+            
+          <div class="col-lg-3" style="display: none" id="moving_average_type">
+     <div class="form-group">
+                    <label for="type" style="font-weight:700;font-size:16px">Type</label>
+                    <select class="form-control" style="font-size:16px" id="trigger_ma_type">
+                          <option>Select Type</option>
+          <option>Simple</option>
+          <option>Exponential</option></option>
+         </select>
+                </div>
+            </div>       
+         
+               <div class="col-lg-4" style="display: none" id="ma_con">
+     <div class="form-group">
+                    <label for="ma" style="font-weight:700;font-size:16px">MA</label>
+                    <select class="form-control" style="font-size:16px" id="trigger_ma_maOperator">
+                          <option>Select MA Operator </option>
+          <option value="1">>=</option>
+          <option value="2"><=</option>
+          <option value="3">></option>
+          <option value="4"><</option>
+          <option value="5">=</option>
+          <option value="6">between</option>
+          </select> 
+                </div>
+            </div> 
+       <div class="col-lg-4"  style="margin-top:10px; display: none;" id="ma_con_one">
+                 <div class="form-group">
+      <label for="ma" ></label></label>
+      <input style="font-size:16px" type="text" class="form-control" id="trigger_ma_amount_one" placeholder="Amount" name="ma" >
+    </div></div>
+            
+            
+               <div class="col-lg-4" style="margin-top:10px; display: none;" id="ma_con_two">
+                   <div class="form-group">
+      <label for="ma" ></label></label>
+      <input style="font-size:16px" type="text" class="form-control" id="trigger_ma_amount_two" placeholder="Amount" name="ma" >
+    </div>
+               </div>
+               <div class="col-lg-4" style="margin-top:10px; display: none;" id="ma_con_three">
+                <div class="form-group">
+   <label for="ma" ></label></label>
+   <input style="font-size:16px" type="text" class="form-control" id="trigger_ma_amount_three" placeholder="Amount" name="ma" >
+ </div>
+            </div>
+            
+        <div class="col-lg-4" style="display: none" id="pa_ma_con">
+     <div class="form-group" >
+          <label for="p-ma" style="font-weight:700;font-size:16px">(P-MA)/MA</label>
+          <select class="form-control" style="font-size:16px" id="trigger_pma_pmaOperator">
+          <option>Select (P-MA)/MA operator </option>
+          <option value="1">>=</option>
+          <option value="2"><=</option>
+          <option value="3">></option>
+          <option value="4"><</option>
+          <option value="5">=</option>
+          <option value="6">between</option>
+          </select>
+                </div>
+            </div> 
+       <div class="col-lg-4"style="margin-top:10px; display: none" id="pa_ma_con_one">
+                 <div class="form-group">
+      <label for="p-ma"></label>
+      <input style="font-size:16px" type="text" class="form-control" id="trigger_pma_amount_one" placeholder="Amount" name="p-ma" >
+    </div>
+     </div>
+     <div class="col-lg-4" style="margin-top:10px; display: none" id="pa_ma_con_two">
+         <div class="form-group">
+      <label for="ma" ></label>
+      <input style="font-size:16px" type="text" class="form-control" id="trigger_pma_amount_two" placeholder="Amount" name="ma" >
+    </div>
+     </div>
+     <div class="col-lg-4" style="margin-top:10px; display: none" id="pa_ma_con_three">
+      <div class="form-group">
+   <label for="ma" ></label>
+   <input style="font-size:16px" type="text" class="form-control" id="trigger_pma_amount_three" placeholder="Amount" name="ma" >
+    </div>
+    </div>
+    
+     <div class="col-lg-4" style="display: none" id="ma_avg_con">
+                 <div class="form-group">
+      <label for="ma_avg" style="font-weight:700;font-size:16px">MA avg</label>
+      <input style="font-size:16px" type="text" class="form-control" id="maavg_noof_candles" placeholder="No. of candels" name="ma_avg" >
+    </div></div>
+            
+          <div class="col-lg-4" style="margin-top:10px; display: none;" id="ma_avg_con_one" >
+     <div class="form-group" style="font-size:16px">
+                    <label for="ma_avg"></label>
+                    <select class="form-control" id="trigger_maavg_maOperator">
+                            <option>Select MA avg operator</option>
+                            <option value="1">>=</option>
+                            <option value="2"><=</option>
+                            <option value="3">></option>
+                            <option value="4"><</option>
+                            <option value="5">=</option>
+                            <option value="6">between</option>
+                    </select>
+                </div>
+            </div>       
+            
+        <div class="col-lg-4"style="margin-top:10px; display: none;" id="ma_avg_con_two">
+                 <div class="form-group" >
+      <label  style="font-size:16px;" for="ma_avg"></label>
+      <input type="text" class="form-control" id="trigger_maavg_amount" placeholder="Amount" name="ma_avg" >
+    </div></div>
+     <div class="col-lg-4"style="margin-top:10px; display: none;" id="ma_avg_con_three">
+                 <div class="form-group" >
+      <label  style="font-size:16px;" for="ma_avg"></label>
+      <input type="text" class="form-control" id="trigger_maavg_amount_one" placeholder="Amount" name="ma_avg" >
+    </div></div> 
+    <div class="col-lg-4"style="margin-top:10px; display: none;" id="ma_avg_con_four">
+      <div class="form-group" >
+<label  style="font-size:16px;" for="ma_avg"></label>
+<input type="text" class="form-control" id="trigger_maavg_amount_two" placeholder="Amount" name="ma_avg" >
+</div></div>          
+            
+             <div class="col-lg-4" style="display: none;" id="p_ma_ma_con">
+                 <div class="form-group">
+      <label for="(p-ma)/ma_avg" style="font-weight:700;font-size:16px">(P-MA)/MA avg</label>
+      <input style="font-size:16px" type="text" class="form-control" id="pmamaavg_noof_candles" placeholder="No. of candels" name="(P-MA)/MA avg" >
+    </div></div>
+            
+             <div class="col-lg-4" style="margin-top:10px; display: none;" id="p_ma_ma_con_one">
+     <div class="form-group">
+                    <label for="(P-MA)/MA_avg" ></label>
+                    <select class="form-control"  style="font-size:16px" id="p_ma_ma_avg_operator">
+                    <option>Select (P-MA)/MA avg Operator</option>      
+          <option value="1">>=</option>
+          <option value="2"><=</option>
+          <option value="3">></option>
+          <option value="4"><</option>
+          <option value="5">=</option>
+          <option value="6">between</option>
+          </select>
+                </div>
+            </div>       
+            
+        <div class="col-lg-4"style="margin-top:10px; display: none;" id="p_ma_ma_con_two">
+                 <div class="form-group">
+      <label for="(p-ma)/ma_avg"></label>
+      <input  style="font-size:16px" type="text" class="form-control" id="trigger_pmamaavg_amount" placeholder="Amount" name="(p-ma)/ma_avg" >
+    </div></div>
+     <div class="col-lg-4"style="margin-top:10px; display: none;" id="p_ma_ma_con_three">
+                 <div class="form-group">
+      <label for="(p-ma)/ma_avg"></label>
+      <input  style="font-size:16px" type="text" class="form-control" id="trigger_pmamaavg_amount_one" placeholder="Amount" name="(p-ma)/ma_avg" >
+    </div></div>
+    <div class="col-lg-4"style="margin-top:10px; display: none;" id="p_ma_ma_con_four">
+      <div class="form-group">
+    <label for="(p-ma)/ma_avg"></label>
+    <input  style="font-size:16px" type="text" class="form-control" id="trigger_pmamaavg_amount_two" placeholder="Amount" name="(p-ma)/ma_avg" >
+    </div></div>           
+           
+       
+           <div class="col-lg-6" style="display: none;" id="volume_con">
+     <div class="form-group">
+                    <label for="volume" style="font-weight:700;font-size:16px">Volume</label>
+                    <select class="form-control"  style="font-size:16px" id="selection_volume">
+          <option>Select Volume</option>              
+          <option value="volume">Volume</option>
+          <option value="volume_avg">Volume avg</option>
+          </select>
+                </div>
+            </div> 
+            
+               <div class="col-lg-4" style="display: none;"></div>
+               <div class="col-lg-2" style="display: none;"></div>
+             
+              
+             <div class="col-lg-6" style="display: none;" id="volume_con_time_frame">
+     <div class="form-group">
+                    <label for="time_frame" style="font-weight:700;font-size:16px">Time Frame</label>
+                    <select class="form-control"  style="font-size:16px" id="trigger_volume_time_frame">
+                            <option>Select Time Frame</option>
+                            <option value="minute" data-type="minute" data-duration="1">1min</option>
+                            <option value="2minute" data-type="minute" data-duration="2">2min</option>
+                            <option value="3minute" data-type="minute" data-duration="3">3min</option>
+                            <option value="4minute" data-type="minute" data-duration="4">4min</option>
+                            <option value="5minute" data-type="minute" data-duration="5">5min</option>
+                            <option value="10minute" data-type="minute" data-duration="10">10min</option>
+                            <option value="15minute" data-type="minute" data-duration="15">15min</option>
+                            <option value="30minute" data-type="minute" data-duration="30">30min</option>
+                            <option value="60minute" data-type="minute" data-duration="60">60min</option>
+                            <option value="day" data-type="day" data-duration="1">1D</option>
+                    </select>
+                </div>
+            </div> 
+            
+             <div class="col-lg-4" style="display: none;"></div>
+             
+               <div class="col-lg-2" style="display: none;"></div>
+               <div class="col-lg-4" style="display: none;" id="volume_optioncon">
+     <div class="form-group">
+                    <label for="volume" style="font-weight:700;font-size:16px">Volume</label>
+                    <select class="form-control"  style="font-size:16px" id="trigger_simplevolume_maOperator">
+                         <option> Select Volume Operator</option>
+          <option value="1">>=</option>
+          <option value="2"><=</option>
+          <option value="3">></option>
+          <option value="4"><</option>
+          <option value="5">=</option>
+          <option value="6">between</option>
+          </select>
+                </div>
+            </div> 
+           
+           <div class="col-lg-4"style="margin-top:10px; display: none;" id="volume_optioncon_one">
+                 <div class="form-group">
+                
+      <label for="volume"></label>
+      <input  style="font-size:16px" type="text" class="form-control" id="trigger_simplevolume_amount_one" placeholder="Amount" name="vol" >
+    </div></div>
+      <div class="col-lg-4"style="margin-top:10px; display: none;" id="volume_optioncon_three">
+                 <div class="form-group">
+                
+      <label for="volume"></label>
+      <input  style="font-size:16px" type="text" class="form-control" id="trigger_simplevolume_amount_two" placeholder="Amount" name="vol" >
+    </div></div>
+    <div class="col-lg-4"style="margin-top:10px; display: none;" id="volume_optioncon_four">
+      <div class="form-group">
+     
+  <label for="volume"></label>
+  <input  style="font-size:16px" type="text" class="form-control" id="trigger_simplevolume_amount_three" placeholder="Amount" name="vol" >
+  </div></div>
+     <div class="col-lg-4" style="display: none;" id="volume_optioncon_two"></div>
+    
+     <div class="col-lg-4" style="display: none;" id="volume_avg_con">
+                 <div class="form-group">
+      <label for="vol_avg" style="font-weight:700;font-size:16px">Volume avg</label>
+      <input  style="font-size:16px" type="text" class="form-control" id="vol_avg_no_candles" placeholder="Volume avg" name="avg_vol" >
+    </div></div>
+            <div class="col-lg-4" style="display: none; padding-top: 8px;" id="volume_avg_con_one">
+     <div class="form-group">
+                    <label for="vol_avg"></label>
+                    <select class="form-control"  style="font-size:16px" id="trigger_volumeavg_maOperator">
+          <option>Select Volume avg Operator</option>
+          <option value="1">>=</option>
+          <option value="2"><=</option>
+          <option value="3">></option>
+          <option value="4"><</option>
+          <option value="5">=</option>
+          <option value="6">between</option>
+          </select>
+                </div>
+            </div>       
+               <div class="col-lg-4" style="display: none; padding-top: 8px;" id="volume_avg_con_two">
+                 <div class="form-group">
+      <label for="vol_avg"></label>
+      <input  style="font-size:16px" type="text" class="form-control" id="vol_avg_amount_one" placeholder="Amount" name="vol_avg" >
+    </div></div>
+     <div class="col-lg-4" style="display: none; padding-top: 8px;" id="volume_avg_con_three">
+                 <div class="form-group">
+      <label for="vol_avg"></label>
+      <input  style="font-size:16px" type="text" class="form-control" id="vol_avg_amount_two" placeholder="Amount" name="vol_avg" >
+    </div></div>
+    <div class="col-lg-4" style="display: none; padding-top: 8px;" id="volume_avg_con_four">
+      <div class="form-group">
+<label for="vol_avg"></label>
+<input  style="font-size:16px" type="text" class="form-control" id="vol_avg_amount_three" placeholder="Amount" name="vol_avg" >
+</div></div>
+    
+    
+            
+                <div class="col-lg-4" style="display: none;" id="rsi_con">
+     <div class="form-group">
+                    <label for="rsi" style="font-weight:700;font-size:16px">RSI</label>
+                    <select class="form-control"  style="font-size:16px" id="trigger_rsi_maOperator">
+          <option>Select RSI Operator</option>
+          <option value="1">>=</option>
+          <option value="2"><=</option>
+          <option value="3">></option>
+          <option value="4"><</option>
+          <option value="5">=</option>
+          <option value="6">between</option>
+          </select>
+                </div>
+                </div>
+            
+      <div class="col-lg-4"style="margin-top:10px;display: none;" id="rsi_amount">
+                 <div class="form-group">
+      <label for="rsi"></label>
+      <input  style="font-size:16px" type="text" class="form-control" id="trigger_rsi_amount_one" placeholder="Amount" name="rsi" >
+    </div></div>
+     <div class="col-lg-4"style="margin-top:10px;display: none;" id="rsi_amount_two">
+                 <div class="form-group">
+      <label for="rsi"></label>
+      <input  style="font-size:16px" type="text" class="form-control" id="trigger_rsi_amount_two" placeholder="Amount" name="rsi" >
+    </div></div>
+    <div class="col-lg-4"style="margin-top:10px;display: none;" id="rsi_amount_three">
+      <div class="form-group">
+<label for="rsi"></label>
+<input  style="font-size:16px" type="text" class="form-control" id="trigger_rsi_amount_three" placeholder="Amount" name="rsi" >
+</div></div>
+            
+              <div class="col-lg-4" style="display: none;" id="rsi_con_one"></div>
+             <div class="col-lg-4" style="display: none;" id="rsi_time_frame">
+     <div class="form-group">
+                    <label for="time_frame" style="font-weight:700;font-size:16px">Time Frame</label>
+                    <select class="form-control"  style="font-size:16px" id="trigger_rsi_time_frame">
+                     <option>Select Time Frame</option>
+                     <option value="minute" data-type="minute" data-duration="1">1min</option>
+                     <option value="2minute" data-type="minute" data-duration="2">2min</option>
+                     <option value="3minute" data-type="minute" data-duration="3">3min</option>
+                     <option value="4minute" data-type="minute" data-duration="4">4min</option>
+                     <option value="5minute" data-type="minute" data-duration="5">5min</option>
+                     <option value="10minute" data-type="minute" data-duration="10">10min</option>
+                     <option value="15minute" data-type="minute" data-duration="15">15min</option>
+                     <option value="30minute" data-type="minute" data-duration="30">30min</option>
+                     <option value="60minute" data-type="minute" data-duration="60">60min</option>
+                     <option value="day" data-type="day" data-duration="1">1D</option>
+          </select>
+                </div>
+            </div>  
+             
+          <div class="col-lg-4" style="display: none;" id="rsi_period">
+                 <div class="form-group">
+      <label for=" Period" style="font-weight:700;font-size:16px">Period</label>
+      <input  style="font-size:16px;" type="text" class="form-control" id="rsi_periods" placeholder="Period" name="period" >
+    </div></div>
+    
+      <div class="col-lg-4" style="display: none;" id="rsi_con_two"></div>
+    
+       <div class="col-lg-6" style="display: none;" id="parabolic_sar_con">
+     <div class="form-group">
+                    <label for="parabolic" style="font-weight:700;font-size:16px">Parabolic SAR</label>
+                     <select class="form-control"  style="font-size:16p ;diplay:none" id="select_parabolic">
+                             <option>Select Parabolic SAR</option>
+           <option value="parabolic_sar_sar">Parabolic SAR</option>
+           <option value="parsar">(P-ParSar)/ParSAR</option>
+          </select>
+                </div>
+            </div>  
+            
+            
+               <div class="col-lg-4" style="display: none;" id="parabolic_sar_con_one"></div>
+               
+               <div class="col-lg-2" style="display: none;" id="parabolic_sar_con_two"></div>
+            
+             <div class="col-lg-6" style="display: none;" id="parabolic_sar_time_frame">
+     <div class="form-group">
+                    <label for="time_frame" style="font-weight:700;font-size:16px;">Time Frame</label>
+                     <select class="form-control"  style="font-size:16px">
+                             <option>Select Time Frame</option>
+          <option>1min</option>
+          <option>2min</option>
+          <option>3min</option>
+          <option>4min</option>
+          <option>5min</option>
+          <option>10min</option>
+          <option>15min</option>
+          <option>30min</option>
+          <option>Hour</option>
+          <option>1D</option>
+          <option>1W</option>
+          <option>1M</option>
+          </select>
+                </div>
+            </div>  
+            
+               <div class="col-lg-4" style="display: none;" id="parabolic_sar_time_frame_one"></div>
+               <div class="col-lg-2" style="display: none;" id="parabolic_sar_time_frame_two"></div>
+               <div class="col-lg-4" style="display: none;" id="parabolic_saroption">
+     <div class="form-group">
+                    <label for="parabolic_sar" style="font-weight:700;font-size:16px;">Parabolic SAR</label>
+                     <select class="form-control"  style="font-size:16px">
+                               <option>Select Parabolic SAR Operator </option>
+          <option>>=</option>
+          <option><=</option>
+          <option>></option>
+          <option><</option>
+          <option>=</option>
+          <option>between</option>
+          </select>
+                </div>
+            </div>  
+            
+               <div class="col-lg-4"style="margin-top:10px; display: none;" id="parabolic_saroption_one">
+                 <div class="form-group">
+      <label for="parabolic_Sar"></label>
+      <input   style="font-size:16px"type="text" class="form-control" id="parabolic_sar" placeholder="Amount" name="parabolic_sar" >
+    </div></div>
+    
+               <div class="col-lg-4" style="display: none;"></div>
+    
+               <div class="col-lg-4" style="display: none;" id="parsar_con">
+     <div class="form-group">
+                    <label for="(p=parsar)" style="font-weight:700;font-size:16px">(P-ParSAR)/ParSAR</label>
+                     <select class="form-control"  style="font-size:16px">
+                             <option>Select (P-ParSAR)/ParSAR Operator</option>
+          <option>>=</option>
+          <option><=</option>
+          <option>></option>
+          <option><</option>
+          <option>=</option>
+          <option>between</option>
+          </select>
+                </div>
+            </div>  
+            
+               <div class="col-lg-4"style="margin-top:10px;display: none;" id="parsar_con_one">
+                 <div class="form-group">
+      <label for="parsar"></label>
+      <input  style="font-size:16px" type="text" class="form-control" id="parsar" placeholder="Amount" name="parsar" >
+    </div></div>
+    
+    
+             
+    
+      <div class="col-lg-4" style="display: none;"></div>
+    <div class="col-lg-4" style="display: none;" id="p_con">
+     <div class="form-group">
+                    <label for="(p2-p1)" style="font-weight:700;font-size:16px">(P2-P1)/P1</label>
+                    <select class="form-control"  style="font-size:16px" id="trigger_p2p1_maOperator">
+                            <option>Select (P2-P1)/P1</option>
+          <option value="1">>=</option>
+          <option value="2"><=</option>
+          <option value="3">></option>
+          <option value="4"><</option>
+          <option value="5">=</option>
+          <option value="6">between</option>
+          </select>
+                </div>
+            </div>  
+            
+            <div class="col-lg-4" style="margin-top:10px;display: none;" id="p_amount">
+                 <div class="form-group">
+      <label for="(p2-p1)"></label>
+      <input  style="font-size:16px" type="text" class="form-control" id="trigger_p2p1_amount_one" placeholder="Amount" name="p2-p1" >
+    </div></div>
+      <div class="col-lg-4" style="margin-top:10px;display: none;" id="p_amount_two">
+                 <div class="form-group">
+      <label for="(p2-p1)"></label>
+      <input  style="font-size:16px" type="text" class="form-control" id="trigger_p2p1_amount_two" placeholder="Amount" name="p2-p1" >
+    </div></div>
+    <div class="col-lg-4" style="margin-top:10px;display: none;" id="p_amount_three">
+      <div class="form-group">
+  <label for="(p2-p1)"></label>
+  <input  style="font-size:16px" type="text" class="form-control" id="trigger_p2p1_amount_three" placeholder="Amount" name="p2-p1" >
+  </div></div>
+    
+   
+    <div class="col-lg-4" style="display: none;" id="p_con_one"></div>
+   
+              <div class="col-lg-4" style="display: none;" id="p_symbol_one">
+                 <div class="form-group">
+      <label for="symbol1" style="font-weight:700;font-size:16px">Symbol1</label>
+      <input  style="font-size:16px" type="text" class="form-control" id="p2p1symbol_one" placeholder="" name="symbl" >
+      <ul class="list-group" id="p2p1resultsymbolone"></ul>
+      <div style="display: none;"><input type="text" id="instrument_token_p2p1"></div>
+    </div></div>
+    
+    
+              <div class="col-lg-4" style="display: none;" id="p_symbol_two">
+                 <div class="form-group">
+      <label for="symbol2" style="font-weight:700;font-size:16px">Symbol2</label>
+      <input  style="font-size:16px" type="text" class="form-control" id="p2p1symbol_two" placeholder="" name="symbl2" >
+     <ul class="list-group" id="p2p1resultsymboltwo"></ul>
+      <div style="display: none;"><input type="text" id="instrument_token_p2p1_two"></div>
+    </div></div>
+    
+    
+     
+     <div class="col-lg-4" style="display: none;" id="p_con_two"></div>
+     
+     <!--/////////////////////////////////////P1 - P2 code start//////////////////////////////////////////////////////-->
+     <div class="col-lg-4" style="display: none;" id="p2minusp1_con">
+     <div class="form-group">
+                    <label for="(p2-p1)" style="font-weight:700;font-size:16px">P1 - P2</label>
+                    <select class="form-control"  style="font-size:16px" id="trigger_p1minusp2_maOperator">
+                            <option>Select Operator</option>
+          <option value="1">>=</option>
+          <option value="2"><=</option>
+          <option value="3">></option>
+          <option value="4"><</option>
+          <option value="5">=</option>
+          <option value="6">between</option>
+          </select>
+                </div>
+            </div> 
+     <div class="col-lg-4" style="display: none; margin-top:10px;" id="p2minusp1_conone">
+                 <div class="form-group">
+      <label for="(p2-p1)"></label>
+      <input  style="font-size:16px" type="text" class="form-control" id="trigger_p1minusp2_amount_one" placeholder="Amount" name="p2-p1" >
+    </div></div>
+     <div class="col-lg-4" style="margin-top:10px; display: none;" id="p2minusp1_contwo">
+                 <div class="form-group">
+      <label for="(p2-p1)"></label>
+      <input  style="font-size:16px" type="text" class="form-control" id="trigger_p1minusp2_amount_two" placeholder="Amount" name="p2-p1" >
+    </div></div> 
+     <div class="col-lg-4" style="margin-top:10px; display: none;" id="p2minusp1_conthree">
+     <div class="form-group">
+      <label for="(p2-p1)"></label>
+      <input  style="font-size:16px" type="text" class="form-control" id="trigger_p1minusp2_amount_three" placeholder="Amount" name="p2-p1" >
+    </div></div> 
+     
+     <div class="col-lg-4" style="display: none;" id="p2minusp1_confour"></div>
+     
+     <div class="col-lg-4" style="display: none;" id="p2minusp1_symbol_one">
+                 <div class="form-group">
+      <label for="symbol1" style="font-weight:700;font-size:16px">Symbol1</label>
+      <input  style="font-size:16px" type="text" class="form-control" id="p1minusp2symbol_one" placeholder="" name="symbl" >
+      <ul class="list-group" id="p1minusp2resultsymbolone"></ul>
+    <div style="display: none;"><input type="text" id="instrument_token_p2minusp1_one"></div>
+    </div></div>
+    
+    
+              <div class="col-lg-4" style="display: none;" id="p2minusp1_symbol_two">
+                 <div class="form-group">
+      <label for="symbol2" style="font-weight:700;font-size:16px">Symbol2</label>
+      <input  style="font-size:16px" type="text" class="form-control" id="p1minusp2symbol_two" placeholder="" name="symbl2" >
+       <ul class="list-group" id="p1minusp2resultsymboltwo"></ul>
+    <div style="display: none;"><input type="text" id="instrument_token_p2minusp1_two"></div>
+    </div></div>
+     
+     <!--/////////////////////////////////////P1 - P2 code end//////////////////////////////////////////////////////-->
+     
+     <!--/////////////////////////////////////P1 + P2 code start//////////////////////////////////////////////////////-->
+     <div class="col-lg-4" style="display: none;" id="p2plusp1_con">
+     <div class="form-group">
+                    <label for="(p2-p1)" style="font-weight:700;font-size:16px">P1 + P2</label>
+          <select class="form-control"  style="font-size:16px" id="trigger_p1plusp2_maOperator">
+          <option>Select Operator</option>
+          <option value="1">>=</option>
+          <option value="2"><=</option>
+          <option value="3">></option>
+          <option value="4"><</option>
+          <option value="5">=</option>
+          <option value="6">between</option>
+          </select>
+                </div>
+            </div> 
+     <div class="col-lg-4" style="display: none; margin-top:10px;" id="p2plusp1_conone">
+                 <div class="form-group">
+      <label for="(p2-p1)"></label>
+      <input  style="font-size:16px" type="text" class="form-control" id="trigger_p2plusp1_amount_one" placeholder="Amount" name="p2-p1" >
+    </div></div>
+     <div class="col-lg-4" style="margin-top:10px; display: none;" id="p2plusp1_contwo">
+                 <div class="form-group">
+      <label for="(p2-p1)"></label>
+      <input  style="font-size:16px" type="text" class="form-control" id="trigger_p1plusp2_amount_two" placeholder="Amount" name="p2-p1" >
+    </div></div> 
+     <div class="col-lg-4" style="margin-top:10px; display: none;" id="p2plusp1_conthree">
+     <div class="form-group">
+      <label for="(p2-p1)"></label>
+      <input  style="font-size:16px" type="text" class="form-control" id="trigger_p1plusp2_amount_three" placeholder="Amount" name="p2-p1" >
+    </div></div> 
+     
+     <div class="col-lg-4" style="display: none;" id="p2plusp1_confour"></div>
+     
+     <div class="col-lg-4" style="display: none;" id="p2plusp1_symbol_one">
+                 <div class="form-group">
+      <label for="symbol1" style="font-weight:700;font-size:16px">Symbol1</label>
+      <input  style="font-size:16px" type="text" class="form-control" id="p1plusp2symbol_one" placeholder="NSE,BSE,NFO,MCX" name="symbl" >
+      <ul class="list-group" id="p1plusp2resultsymbolone"></ul>
+    <div style="display: none;"><input type="text" id="instrument_token_p2lplusp1_one"></div>
+    </div></div>
+    
+    
+              <div class="col-lg-4" style="display: none;" id="p2plusp1_symbol_two">
+                 <div class="form-group">
+      <label for="symbol2" style="font-weight:700;font-size:16px">Symbol2</label>
+      <input  style="font-size:16px" type="text" class="form-control" id="p1plusp2symbol_two" placeholder="NSE,BSE,NFO,MCX" name="symbl2" >
+      <ul class="list-group" id="p1plusp2resultsymboltwo"></ul>
+       <div style="display: none;"><input type="text" id="instrument_token_p2lplusp1_two"></div>
+    </div></div>
+     
+     <!--/////////////////////////////////////P1 + P2 code end//////////////////////////////////////////////////////-->
+     
+     <div class="col-lg-6" style="display: none;" id="trigger_con">
+                 <div class="form-group">
+      <label for="order" style="font-weight:700;font-size:16px">Trigger if order is Place</label>
+      <input  style="font-size:16px"type="text" class="form-control" id="order" placeholder="Trigger if order is Place" name="order" >
+    </div></div>
+     <div class="col-lg-4" style="display: none;" id="trigger_con_one"></div> <div class="col-lg-2" style="display: none;" id="trigger_con_two"></div>
+        
+    <div class="col-lg-4"></div>
+    <!--<div class="col-lg-4" style="font-weight:700;font-size:16px"> <button type="submit" class="btn btn-default" style="background-color:#E9ECEF;font-weight:700">Submit</button></div>-->
+    <div class="col-lg-4"></div>
+   </div>
+       <br>
+            
+        </div>
+        </form>
+        <div class="col-lg-4">
+         <button name="addtrigger" id="placeorder" class="btn btn-success">Add Trigger</button>
+        </div>
+    </section>
+    </div>
+ 
+</div>
+</div>
+</div></div>
+<!--end table2-->
+     
+      <!-- Sticky Footer -->
+      <footer class="sticky-footer">
+        <div class="container my-auto">
+          <div class="copyright text-center my-auto">
+            
+            <span>Copyright ©Smart Invest 2020</span>
+          </div>
+        </div>
+      </footer>
+
+    </div>
+    <!-- /.content-wrapper -->
+
+  </div>
+  <!-- /#wrapper -->
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+
+
+  <!-- Bootstrap core JavaScript-->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Page level plugin JavaScript-->
+  <script src="vendor/chart.js/Chart.min.js"></script>
+  <script src="vendor/datatables/jquery.dataTables.js"></script>
+  <script src="vendor/datatables/dataTables.bootstrap4.js"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="js/sb-admin.min.js"></script>
+
+  <!-- Demo scripts for this page-->
+  <script src="js/demo/datatables-demo.js"></script>
+  <!--<script src="js/demo/chart-area-demo.js"></script>-->
+ <script src="dashboard/js/custom.js"></script>
+  <script>
+
+      $('.feat-btn').click(function(){
+        $('nav ul .feat-show').toggleClass("show1");
+        $('nav ul .first').toggleClass("rotate1");
+      });
+      $('.feat-btn').click(function(){
+        $('nav ul .feat-show').toggleClass("show");
+     
+      });
+      $('.serv-btn').click(function(){
+        $('nav ul .serv-show').toggleClass("show1");
+        $('nav ul .second').toggleClass("rotate");
+      });
+      $('nav ul li').click(function(){
+        $(this).addClass("active").siblings().removeClass("active");
+      });
+    </script>
+
+<script type="text/javascript">
+    $(function () {
+        $("#select_trigger").change(function () {
+
+          $("#mv_option").prop("selectedIndex", 0);
+         $("#selection_volume").prop("selectedIndex", 0);
+
+          
+          $("#pa_ma_con").hide();
+          $("#pa_ma_con_one").hide();
+          $("#pa_ma_con_two").hide();
+          $("#pa_ma_con_three").hide();
+          $("#ma_con").hide();
+          $("#ma_con_one").hide();
+          $("#ma_con_two").hide();
+          $("#ma_con_three").hide();
+          $("#ma_avg_con").hide();
+          $("#ma_avg_con_one").hide();
+          $("#ma_avg_con_two").hide();
+          $("#ma_avg_con_three").hide();
+          $("#ma_avg_con_four").hide();
+          $("#p_ma_ma_con").hide();
+          $("#p_ma_ma_con_one").hide();
+          $("#p_ma_ma_con_two").hide();
+          $("#p_ma_ma_con_three").hide();
+          $("#p_ma_ma_con_four").hide();
+          $("#volume_optioncon").hide();
+          $("#volume_optioncon_one").hide();
+          $("#volume_optioncon_two").hide();
+          $("#volume_optioncon_three").hide();
+          $("#volume_optioncon_four").hide();
+           $("#volume_avg_con").hide();
+           $("#volume_avg_con_one").hide();
+           $("#volume_avg_con_two").hide();
+           $("#volume_avg_con_three").hide();
+           $("#volume_avg_con_four").hide();
+            if ($(this).val() == "1") {
+               alert("hello price");
+                $("#price-con").show();
+                $("#price-am").show();
+                $("#symbolcontainer").show();
+            } else {
+                $("#price-con").hide();
+                 $("#price-am").hide();
+            }
+            
+            if ($(this).val() == "2") {
+              alert("here in moving average");
+                $("#moving_average").show();
+                $("#moving_average_one").show();
+                $("#moving_average_two").show();
+                $("#moving_average_time_frame").show();
+                $("#moving_average_type").show();
+                $("#moving_average_period").show();
+                $("#moving_average_field").show();
+                $("#price-am-one").hide();
+                $("#price-am-two").hide();
+                $("#symbolcontainer").show();
+                
+            } else {
+                $("#moving_average").hide();
+                 $("#moving_average_one").hide();
+                $("#moving_average_two").hide();
+                $("#moving_average_time_frame").hide();
+                $("#moving_average_type").hide();
+                $("#moving_average_period").hide();
+                $("#moving_average_field").hide();
+                 
+            }
+            
+            if ($(this).val() == "3") {
+                $("#volume_con").show();
+                $("#volume_con_time_frame").show();
+                $("#symbolcontainer").show();
+            } else {
+                $("#volume_con").hide();
+                 $("#volume_con_time_frame").hide();
+            }
+            
+             if ($(this).val() == "6") {
+                $("#rsi_con").show();
+                $("#rsi_amount").show();
+                $("#rsi_con_one").show();
+                $("#rsi_time_frame").show();
+                $("#rsi_period").show();
+                $("#rsi_con_two").show();
+                $("#symbolcontainer").show();
+                
+                
+            } else {
+               $("#rsi_con").hide();
+                $("#rsi_amount").hide();
+                $("#rsi_con_one").hide();
+                $("#rsi_time_frame").hide();
+                $("#rsi_period").hide();
+                $("#rsi_con_two").hide();
+            }
+            
+//            if ($(this).val() == "parabolic_sar") {
+//                $("#parabolic_sar_con").show();
+//                $("#parabolic_sar_con_one").show();
+//                $("#parabolic_sar_con_two").show();
+//                $("#parabolic_sar_time_frame").show();
+//                $("#parabolic_sar_time_frame_one").show();
+//                $("#parabolic_sar_time_frame_two").show();
+//            } else {
+//                $("#parabolic_sar_con").hide();
+//                $("#parabolic_sar_con_one").hide();
+//                $("#parabolic_sar_con_two").hide();
+//                $("#parabolic_sar_time_frame").hide();
+//                $("#parabolic_sar_time_frame_one").hide();
+//                $("#parabolic_sar_time_frame_two").hide();
+//            }
+            
+             if ($(this).val() == "4") {
+
+                 alert("hello i am here in p2p1");
+                $("#p_con").show();
+                $("#p_amount").show();
+                $("#p_con_one").show();
+                $("#p_con_two").show();
+                $("#p_symbol_one").show();
+                $("#p_symbol_two").show();
+                $("#symbolcontainer").hide();
+            } else {
+                $("#p_con").hide();
+                $("#p_amount").hide();
+                $("#p_con_one").hide();
+                $("#p_con_two").hide();
+                $("#p_symbol_one").hide();
+                $("#p_symbol_two").hide();
+//                $("#symbolcontainer").show();
+            }
+            
+              if($(this).val() == "7"){
+                alert("hello plmiunsp2");
+                $("#p2minusp1_con").show();
+                $("#p2minusp1_conone").show();
+                $("#p2minusp1_confour").show();
+                $("#p2minusp1_symbol_one").show();
+                $("#p2minusp1_symbol_two").show();
+                $("#symbolcontainer").hide();
+            }else{
+                $("#p2minusp1_con").hide();
+                $("#p2minusp1_conone").hide();
+                $("#p2minusp1_contwo").hide();
+                $("#p2minusp1_conthree").hide();
+                $("#p2minusp1_confour").hide();
+                $("#p2minusp1_symbol_one").hide();
+                $("#p2minusp1_symbol_two").hide();
+//                $("#symbolcontainer").show();
+                
+            }
+            
+             if($(this).val() == "8"){
+                alert("here p1plusp2");
+                $("#p2plusp1_con").show();
+                $("#p2plusp1_conone").show();
+                $("#p2plusp1_confour").show();
+                $("#p2plusp1_symbol_one").show();
+                $("#p2plusp1_symbol_two").show();
+                $("#symbolcontainer").hide();
+            }else{
+                $("#p2plusp1_con").hide();
+                $("#p2plusp1_conone").hide();
+                $("#p2plusp1_confour").hide();
+                $("#p2plusp1_contwo").hide();
+                $("#p2plusp1_conthree").hide();
+                $("#p2plusp1_symbol_one").hide();
+                $("#p2plusp1_symbol_two").hide();
+//                $("#symbolcontainer").show();
+                
+            }
+            
+           
+            
+            if ($(this).val() == "5") {
+                $("#trigger_con").show();
+                $("#trigger_con_one").show();
+                $("#trigger_con_two").show();
+                $("#symbolcontainer").show();
+            } else {
+                $("#trigger_con").hide();
+                $("#trigger_con_one").hide();
+                $("#trigger_con_two").hide();
+            }
+                   
+            
+        });
+    });
+</script>
+ 
+<script>
+    $(function () {
+        $("#select_trigger").change(function () {
+            
+          
+ });
+    });
+</script>
+
+<script>
+    $(function () {
+        $("#select_trigger").change(function () {
+            
+            
+ });
+    });
+</script>
+
+<script>
+    $(function () {
+        $("#mv_option").change(function () {
+            
+            if ($(this).val() == "MA") {
+               alert("here in MA");
+                $("#ma_con").show();
+                $("#ma_con_one").show();
+//                $("#ma_con_two").show();
+            } else {
+               $("#ma_con").hide();
+                $("#ma_con_one").hide();
+                $("#ma_con_two").hide();
+            }
+            
+            if ($(this).val() == "(P-MA/MA)") {
+                $("#pa_ma_con").show();
+                $("#pa_ma_con_one").show();
+//                $("#pa_ma_con_two").show();
+            } else {
+               $("#pa_ma_con").hide();
+                $("#pa_ma_con_one").hide();
+//                $("#pa_ma_con_two").hide();
+            }
+            
+            if ($(this).val() == "MA avg") {
+                $("#ma_avg_con").show();
+                $("#ma_avg_con_one").show();
+                $("#ma_avg_con_two").show();
+                $("#pa_ma_con_two").hide();
+            } else {
+                $("#ma_avg_con").hide();
+                $("#ma_avg_con_one").hide();
+                $("#ma_avg_con_two").hide();
+            }
+            
+            if ($(this).val() == "P-MA/MA avg") {
+                $("#p_ma_ma_con").show();
+                $("#p_ma_ma_con_one").show();
+                $("#p_ma_ma_con_two").show();
+                $("#ma_avg_con_three").hide();
+            } else {
+              $("#p_ma_ma_con").hide();
+                $("#p_ma_ma_con_one").hide();
+                $("#p_ma_ma_con_two").hide();
+            }
+            
+            
+            
+        });
+        });
+ </script>
+ <script>
+    $(function () {
+        $("#selection_volume").change(function () {
+        
+           if ($(this).val() == "volume") {
+
+                alert("here all simplevolume"); 
+                $("#volume_optioncon").show();
+                $("#volume_optioncon_one").show();
+                $("#volume_optioncon_two").show();
+                $("#volume_avg_con_three").hide();
+            } else {
+              $("#volume_optioncon").hide();
+                $("#volume_optioncon_one").hide();
+                $("#volume_optioncon_two").hide();
+            }
+            
+            if ($(this).val() == "volume_avg") {
+              alert("here in volumeavg");
+                $("#volume_avg_con").show();
+                $("#volume_avg_con_one").show();
+                $("#volume_avg_con_two").show();
+                $("#volume_optioncon_three").hide();
+            } else {
+              $("#volume_avg_con").hide();
+                $("#volume_avg_con_one").hide();
+                $("#volume_avg_con_two").hide();
+            }
+        });
+        });
+ </script>
+ 
+ <script>
+    $(function () {
+        $("#select_parabolic").change(function () {
+        
+        if ($(this).val() == "parabolic_sar_sar") {
+                $("#parabolic_saroption").show();
+                $("#parabolic_saroption_one").show();
+            } else {
+              $("#parabolic_saroption").hide();
+                $("#parabolic_saroption_one").hide();
+            }
+            
+            if ($(this).val() == "parsar") {
+                $("#parsar_con").show();
+                $("#parsar_con_one").show();
+            } else {
+               $("#parsar_con").hide();
+                $("#parsar_con_one").hide();
+            }
+        });
+        });
+ </script>
+ 
+ <script>
+      $(function () {
+        $("#order_type").change(function () {
+            
+            if($(this).val()=="2"){
+               
+                $("#order-price-container").show();
+                $("#trigger-price-container").hide();
+            }else if($(this).val()=="3"){
+                
+               $("#order-price-container").show();
+               $("#trigger-price-container").show();
+            }
+            // else if($(this).val()=="1"){
+                
+            //      $("#trigger-price-container").show();
+            //       $("#order-price-container").hide();
+                 
+            // }
+             else if($(this).val()=="4"){
+                
+                 $("#trigger-price-container").show(); 
+                 $("#order-price-container").hide();
+                 
+            }
+            else{
+                
+                $("#order-price-container").hide();
+                $("#trigger-price-container").hide();
+            }
+            
+
+        });
+        });
+ 
+ </script>
+ 
+ <script>
+  $(function () {
+        $("#trigger_price_operator").change(function () {
+            
+            if($(this).val()=="6"){
+                
+                $("#price-am-one").show();
+                $("#price-am-two").show();
+                $("#price-am").hide();
+                
+            }
+            else{
+                
+               $("#price-am-one").hide();
+               $("#price-am-two").hide();
+               $("#price-am").show();
+                
+            }
+            
+         });
+        });
+ 
+ </script>
+ 
+ <script>
+      $(function () {
+        $("#trigger_ma_maOperator").change(function () {
+            
+            if($(this).val()=="6"){
+               
+                $("#ma_con_two").show();
+                $("#ma_con_three").show();
+                $("#ma_con_one").hide();
+               }else{
+                
+                $("#ma_con_two").hide();
+                $("#ma_con_three").hide();
+                $("#ma_con_one").show();
+               }
+            
+
+        });
+        });
+ 
+ </script>
+ 
+ <script>
+      $(function () {
+        $("#trigger_pma_pmaOperator").change(function () {
+            
+            if($(this).val()=="6"){
+               
+                $("#pa_ma_con_one").hide();
+                $("#pa_ma_con_two").show();
+                $("#pa_ma_con_three").show();
+            }else{
+                
+                $("#pa_ma_con_two").hide();
+                $("#pa_ma_con_three").hide();
+                $("#pa_ma_con_one").show();
+            }
+            
+
+        });
+        });
+ 
+ </script>
+ 
+ <script>
+ 
+ 
+    $(function () {
+        $("#trigger_maavg_maOperator").change(function () {
+            
+            if($(this).val()=="6"){
+               
+                $("#ma_avg_con_three").show();
+                $("#ma_avg_con_four").show();
+                $("#ma_avg_con_two").hide();
+                
+            }else{
+                
+                $("#ma_avg_con_three").hide();
+                $("#ma_avg_con_four").hide();
+                $("#ma_avg_con_two").show();
+                
+                
+            }
+            
+
+        });
+        });
+ 
+ </script>
+ 
+ <script>
+ 
+ 
+    $(function () {
+        $("#p_ma_ma_avg_operator").change(function () {
+            
+            if($(this).val()=="6"){
+               
+                $("#p_ma_ma_con_three").show();
+                $("#p_ma_ma_con_four").show();
+                $("#p_ma_ma_con_two").hide();
+                
+            }else{
+                
+                $("#p_ma_ma_con_three").hide();
+                $("#p_ma_ma_con_four").hide();
+                $("#p_ma_ma_con_two").show();
+                
+            }
+            
+
+        });
+        });
+ 
+ </script>
+ 
+ <script>
+ 
+ 
+    $(function () {
+        $("#trigger_rsi_maOperator").change(function () {
+            
+            if($(this).val()=="6"){
+               
+                $("#rsi_amount_two").show();
+                $('#rsi_amount_three').show();
+                $("#rsi_con_one").hide();
+                
+            }else{
+                
+                $("#rsi_amount_two").hide();
+                $('#rsi_amount_three').hide();
+                $('#rsi_amount_one').show();
+                
+            }
+            
+
+        });
+        });
+ 
+ </script>
+ 
+ 
+ <script>
+ 
+ 
+    $(function () {
+        $("#trigger_p2p1_maOperator").change(function () {
+            
+            if($(this).val()=="6"){
+               
+                $("#p_amount_two").show();
+                $("#p_amount_three").show();
+                $("#p_con_one").hide();
+                $("#p_amount").hide();
+                
+            }else{
+                
+                $("#p_amount_two").hide();
+                $("#p_amount_three").hide();
+                $("#p_con_one").show();
+                $("#p_amount").show();
+                
+            }
+            
+
+        });
+        });
+ 
+ </script>
+ 
+ 
+ <script>
+ 
+ 
+    $(function () {
+        $("#trigger_simplevolume_maOperator").change(function () {
+            
+            if($(this).val()=="6"){
+               
+               $("#volume_optioncon_three").show();
+               $("#volume_optioncon_four").show();
+               $("#volume_optioncon_one").hide();
+                
+            }else{
+                
+                $("#volume_optioncon_three").hide();
+                $("#volume_optioncon_four").hide();
+                $("#volume_optioncon_one").show();
+                
+            }
+            
+
+        });
+        });
+ 
+ </script>
+ 
+ <script>
+ 
+ 
+    $(function () {
+        $("#trigger_volumeavg_maOperator").change(function () {
+            
+            if($(this).val()=="6"){
+               
+                $("#volume_avg_con_three").show();
+                $("#volume_avg_con_four").show();
+               $("#volume_avg_con_two").hide();
+                
+            }else{
+                
+                $("#volume_avg_con_three").hide();
+                $("#volume_avg_con_four").hide();
+                $("#volume_avg_con_two").show();
+            }
+            
+
+        });
+        });
+ 
+ </script>
+ 
+ <script>
+ 
+ 
+    $(function () {
+        $("#trigger_p1minusp2_maOperator").change(function () {
+            
+            if($(this).val()=="6"){
+               
+                $("#p2minusp1_contwo").show();
+                $("#p2minusp1_conthree").show();
+               $("#p2minusp1_conone").hide();
+                $("#p2minusp1_confour").hide();
+                
+            }else{
+                
+               $("#p2minusp1_contwo").hide();
+               $("#p2minusp1_conthree").hide();
+               $("#p2minusp1_conone").show();
+                $("#p2minusp1_confour").show();
+            }
+            
+
+        });
+        });
+ 
+ </script>
+ 
+ 
+ <script>
+ 
+ 
+    $(function () {
+        $("#trigger_p1plusp2_maOperator").change(function () {
+            
+             if($(this).val()=="6"){
+               
+                $("#p2plusp1_contwo").show();
+                $("#p2plusp1_conthree").show();
+               $("#p2plusp1_conone").hide();
+                $("#p2plusp1_confour").hide();
+                
+            }else{
+                
+               $("#p2plusp1_contwo").hide();
+               $("#p2plusp1_conthree").hide();
+               $("#p2plusp1_conone").show();
+                $("#p2plusp1_confour").show();
+            }
+            
+
+        });
+        });
+ 
+ </script>
+
+</body>
+
+</html>

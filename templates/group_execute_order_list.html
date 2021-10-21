@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Smart Invest</title>
+   {% load static %}
+  <!-- Custom fonts for this template-->
+  <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+
+  <!-- Page level plugin CSS-->
+  <link href="{% static 'vendor/datatables/dataTables.bootstrap4.css' %}" rel="stylesheet">
+
+  <!-- log out logo-->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+  <!-- Custom styles for this template-->
+  <link href="{% static 'css/sb-admin.css' %}" rel="stylesheet">
+<!--<link href="css/login.css" rel="stylesheet">-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+</head>
+
+<body id="page-top">
+
+  <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
+
+    <a class="navbar-brand mr-1" href="{% url 'home' %}">Smart Invest</a>
+
+    <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
+      <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Navbar Search -->
+    <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+    {% csrf_token %}
+      <div class="input-group">
+        <!--<input type="text" class="form-control" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">-->
+        <div class="input-group-append">
+        
+    <ul class="navbar-nav ml-auto ml-md-0">
+      <li class="nav-item dropdown no-arrow mx-1">
+        <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <!--<i class="fas fa-envelope fa-fw"></i>-->
+          <p style="font-size:20px">{{request.user.username}}</p>
+          
+          <!--<span class="badge badge-danger"></span>-->
+        </a>
+      <li class="nav-item dropdown no-arrow">
+        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="fas fa-user-circle fa-fw"></i>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+          <!--<a class="dropdown-item" href="#">Settings</a>-->
+          <!--<a class="dropdown-item" href="#">Activity Log</a>-->
+          <div class="dropdown-divider"></div>
+          <!--<a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">Logout</a>-->
+        </div>
+      </li>
+    </ul>
+
+  </nav>
+
+  <div id="wrapper">
+ 
+   <!------------ edit: Sidebar --------  -->     
+
+      <nav class="sidebar" >
+          <a class="nav-link" href="{% url 'home' %}"></a>
+          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <ul>
+                {% comment %} <li class="active"><a href="{% url 'home' %}">Dashboard</a></li> {% endcomment %}
+                <li>
+                    <a href="#" class="feat-btn" style="color:white;">Individual
+                        <span class="fas fa-caret-down first"></span>
+                    </a>
+                    <ul class="feat-show">
+                        <li><a href="{% url 'home' %}">Dashboard</a> </li>
+
+                        <li> <a href="{% url 'save_multiple_trigger' %}" >  Add Trigger</a> </li>
+                        <li> <a href="{% url 'save_multiple_order' %}" > Add Order</a> </li>
+                        <li> <a href="{% url 'trigger_list' %}" > Trigger List</a> </li>
+        
+                    </ul>
+                </li>
+                <li>
+                    <a href="#" class="serv-btn" style="color:white;">Group<span class="fas fa-caret-down second"></span></a>
+                        <ul class="serv-show">
+                            <li> <a href="{% url 'groups_order_listing' %}" > Group Dashboard</a> </li>
+                            <li> <a href="{% url 'create_group' %}" >Create Group</a> </li>
+                            <li> <a href="{% url 'insert_group_trigger' %}" > Add Trigger</a> </li>
+                            <li> <a href="{% url 'insert_group_order' %}" > Add Order</a> </li>
+                            <li> <a href="{% url 'group_listing' %}" > Group List</a> </li>
+                            {% comment %} <li> <a href="{% url 'group_trigger_listing' %}" >  Group Trigger List</a> </li> {% endcomment %}
+                        </ul>
+                </li>
+                <li>
+                    <a href="{% url 'user_logout' %}" style="color:white;padding-left:12px;"><i class="fa fa-sign-out" >  </i>Log Out</a>
+                </li>
+            </ul>
+      </nav>
+      <style>
+        .btnn {
+         background-color:gray;
+         border: none;
+         color: white;
+         padding: 9px 15px;
+         cursor: pointer;
+         font-size: 10px;
+         float: right;
+       }
+       
+        /* Darker background on mouse-over  */
+        .btnn:hover {
+         background-color: gray;
+       } 
+       </style>
+      
+      <!------------ edit: Sidebar --------  -->  
+    <div id="content-wrapper">
+<!--table start-->
+<div class="panel-wrap">
+  <div class="panel">
+     <div class="card mb-3">
+      <div class="row">
+        <div class="col-lg-8">
+          <h2><b>Group Executed Trigger</b></h2></div>
+          <div class="col-lg-4">
+          <a href="{% url 'group_executed_trigger_list' %}"><button type="button" class="btnn"><i class="fa fa-download"></i></button></a>
+
+          </div>
+        </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered" id="tableOpenOrders" width="100%" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th style="background-color:rgb(191, 191, 191)" id="sno" >S.no</th>
+                    <th  style="background-color:rgb(191, 191, 191)" id="date"><a >Date/Time</a></th>
+                    <th  style="background-color:rgb(191, 191, 191)" id="group">Group</th>
+                    <th  style="background-color:rgb(191, 191, 191)" id="triggercondition">Trigger Condition</th>
+                    <th  style="background-color:rgb(191, 191, 191)" >Criteria</th>
+                  
+
+                    {% comment %} {% for i in trigger_order %} {% endcomment %}
+
+                    <tr>
+                    <td></td>
+                      <td>{{ trigger_order.created_on }}</td>
+                      <td>{{ trigger_order.trigger_name }}</td>
+                       <input type="hidden" value="{{ i.trigger_name }}" id="triggername">
+                      <td>{{ trigger_order.trigger_condition }}</td>
+                      <td>{{ trigger_order.criteria }}</td>
+
+
+
+                    </tr>
+                   {% comment %} {% endfor %} {% endcomment %}
+                 
+                
+                       
+                    
+                 
+                  
+                  <!-- <tr>
+                    <td></td>
+                  </tr> -->
+                </thead>
+              </table>
+            </div>
+          </div>
+          <!--<div class="card-footer small text-muted"></div>-->
+        </div>
+
+        <div class="row">
+          <div class="col-lg-8">
+            <h2><b>Group Executed Order</b></h2></div>
+            <div class="col-lg-4">
+            <a href="{% url 'group_executed_order_list' %}"><button type="button" class="btnn"><i class="fa fa-download"></i></button></a>
+
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered" id="tableOpenOrders" width="100%" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th style="background-color:rgb(191, 191, 191)" id="sno" >S.no</th>
+                    <th  style="background-color:rgb(191, 191, 191)" id="groups"><a >Group</a></th>
+                    
+                    {% comment %} <th  style="background-color:rgb(191, 191, 191)" >Symbol</th> {% endcomment %}
+                    
+                    <th  style="background-color:rgb(191, 191, 191)">BUY/SELL</th>
+                    <th  style="background-color:rgb(191, 191, 191)">Amount</th>
+                    <th  style="background-color:rgb(191, 191, 191)"id="order">Order</th>
+                    <th  style="background-color:rgb(191, 191, 191)">Product type</th>
+                    
+                    {% comment %} <th  style="background-color:rgb(191, 191, 191)">Edit </th> {% endcomment %}
+                    <th style="background-color:rgb(191, 191, 191)"></th>
+                    {% comment %} <th style="background-color:rgb(191, 191, 191)">Cancel</th> {% endcomment %}
+
+                    
+                  </tr>
+                
+                  {% for i in executed_order %}
+                    <tr>
+                    <td></td>
+                      <td>{{i.symbol}}</td>
+                       <input type="hidden" value="{{ i.trigger_name }}" id="triggername">
+                      <td>{{i.buy_sell}}</td>
+                      <td>{{i.amount}}</td>
+                      <td>{{i.order_type}}</td>
+                      <td>{{i.product_type}}</td>
+                      {% comment %} <td><a href="update_group_order/{{i.order_id}}"><button type="button" class="btn btn-info">Edit</button></a></td> {% endcomment %}
+                      <td><a ><button type="button" class="btn btn-info" onclick="deletegroup({{i.trigger_id}})">Delete</button></a></td>
+                     {% comment %} <td><a ><button type="button" class="btn btn-info" onclick="cancleorder({{i.trigger_id}})">Cancle</button></a></td>   {% endcomment %}
+
+                    </tr>
+                {% endfor %}
+                       
+                    
+                 
+                  
+                  <!-- <tr>
+                    <td></td>
+                  </tr> -->
+                </thead>
+              </table>
+            </div>
+          </div>
+          <!--<div class="card-footer small text-muted"></div>-->
+        </div>
+<!--end table-->
+
+
+
+     
+      <!-- Sticky Footer -->
+      <footer class="sticky-footer">
+        <div class="container my-auto">
+          <div class="copyright text-center my-auto">
+            <span>Copyright ©Smart Invest 2020</span>
+          </div>
+        </div>
+      </footer>
+
+    </div>
+    <!-- /.content-wrapper -->
+
+  </div>
+  <!-- /#wrapper -->
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  <!-- Logout Modal-->
+  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog " >
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+          <a class="btn btn-primary" href="login.html">Logout</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="openmodal" role="dialog">
+                <div class="modal-dialog modal-xl">
+                
+                    <!-- Modal content--> 
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title"></h4>
+                          <button type="button" class="close" data-dismiss="modal">&times;</button>
+                          
+                        </div>
+                        <div class="modal-body1">
+                          <table class="table table-striped" width="100%" cellspacing="0">
+    <thead>
+      <tr>
+       {% comment %} <th>S.no</th> {% endcomment %}
+       <th>Date and Time</th>
+       <th >Group</th>
+       <th>Trigger Symbol</th>
+       <th >Trigger Condition</th>
+       <th> Trigger Criteria</th>
+       <th>BUY/SELL</th>
+       <th>Qty.</th>
+       <th >Amount</th>
+       <th>Product type</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+
+      
+{% for i in triggers %}
+      <tr>
+        <td>{{i.created_on}}</td>
+        <td>{{i.trigger_name}}</td>
+        <td>{{i.symbol}}</td>
+        <td>{{i.trigger_criteria}}</td>
+        <td>{{i.symbol}}</td>
+        <td>{{i.buy_sell}}</td>
+        <td>{{i.amount}}</td>
+        <td>{{i.trigger_name}}</td>
+        <td>{{i.product_type}}</td>
+
+      </tr>
+{% endfor %}
+    </tbody>
+  </table>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                  
+                </div>
+            </div>
+
+  <!-- Bootstrap core JavaScript-->
+
+
+  <script>
+    $(document).ready(function(){
+        $("#open").click(function(){
+            $("#openmodal").modal('show');
+        });
+    });
+</script>
+
+   <script>
+    $('#date').click(function(){
+    var table = $(this).parents('table').eq(0)
+    var rows = table.find('tr:gt(0)').toArray().sort(comparer($(this).index()))
+    this.asc = !this.asc
+    if (!this.asc){rows = rows.reverse()}
+    for (var i = 0; i < rows.length; i++){table.append(rows[i])}
+})
+function comparer(index) {
+    return function(a, b) {
+        var valA = getCellValue(a, index), valB = getCellValue(b, index)
+        return $.isNumeric(valA) && $.isNumeric(valB) ? valA - valB : valA.toString().localeCompare(valB)
+    }
+}
+function getCellValue(row, index){ return $(row).children('td').eq(index).text() }
+
+  </script>
+
+
+ <script>
+    $('#sno').click(function(){
+    var table = $(this).parents('table').eq(0)
+    var rows = table.find('tr:gt(0)').toArray().sort(comparer($(this).index()))
+    this.asc = !this.asc
+    if (!this.asc){rows = rows.reverse()}
+    for (var i = 0; i < rows.length; i++){table.append(rows[i])}
+})
+function comparer(index) {
+    return function(a, b) {
+        var valA = getCellValue(a, index), valB = getCellValue(b, index)
+        return $.isNumeric(valA) && $.isNumeric(valB) ? valA - valB : valA.toString().localeCompare(valB)
+    }
+}
+function getCellValue(row, index){ return $(row).children('td').eq(index).text() }
+
+  </script>
+  <script>
+    $('#group').click(function(){
+    var table = $(this).parents('table').eq(0)
+    var rows = table.find('tr:gt(0)').toArray().sort(comparer($(this).index()))
+    this.asc = !this.asc
+    if (!this.asc){rows = rows.reverse()}
+    for (var i = 0; i < rows.length; i++){table.append(rows[i])}
+})
+function comparer(index) {
+    return function(a, b) {
+        var valA = getCellValue(a, index), valB = getCellValue(b, index)
+        return $.isNumeric(valA) && $.isNumeric(valB) ? valA - valB : valA.toString().localeCompare(valB)
+    }
+}
+function getCellValue(row, index){ return $(row).children('td').eq(index).text() }
+
+  </script>
+  <script>
+    $('#groups').click(function(){
+    var table = $(this).parents('table').eq(0)
+    var rows = table.find('tr:gt(0)').toArray().sort(comparer($(this).index()))
+    this.asc = !this.asc
+    if (!this.asc){rows = rows.reverse()}
+    for (var i = 0; i < rows.length; i++){table.append(rows[i])}
+})
+function comparer(index) {
+    return function(a, b) {
+        var valA = getCellValue(a, index), valB = getCellValue(b, index)
+        return $.isNumeric(valA) && $.isNumeric(valB) ? valA - valB : valA.toString().localeCompare(valB)
+    }
+}
+function getCellValue(row, index){ return $(row).children('td').eq(index).text() }
+
+  </script>
+  <script>
+    $('#order').click(function(){
+    var table = $(this).parents('table').eq(0)
+    var rows = table.find('tr:gt(0)').toArray().sort(comparer($(this).index()))
+    this.asc = !this.asc
+    if (!this.asc){rows = rows.reverse()}
+    for (var i = 0; i < rows.length; i++){table.append(rows[i])}
+})
+function comparer(index) {
+    return function(a, b) {
+        var valA = getCellValue(a, index), valB = getCellValue(b, index)
+        return $.isNumeric(valA) && $.isNumeric(valB) ? valA - valB : valA.toString().localeCompare(valB)
+    }
+}
+function getCellValue(row, index){ return $(row).children('td').eq(index).text() }
+
+  </script>
+  <script>
+    $('#triggercondition').click(function(){
+    var table = $(this).parents('table').eq(0)
+    var rows = table.find('tr:gt(0)').toArray().sort(comparer($(this).index()))
+    this.asc = !this.asc
+    if (!this.asc){rows = rows.reverse()}
+    for (var i = 0; i < rows.length; i++){table.append(rows[i])}
+})
+function comparer(index) {
+    return function(a, b) {
+        var valA = getCellValue(a, index), valB = getCellValue(b, index)
+        return $.isNumeric(valA) && $.isNumeric(valB) ? valA - valB : valA.toString().localeCompare(valB)
+    }
+}
+function getCellValue(row, index){ return $(row).children('td').eq(index).text() }
+
+  </script>
+
+  <script >
+    var addSerialNumber = function () {
+    var k  = 0;
+    $('#tableOpenOrders tr').each(function(k) {
+        $(this).find('td:nth-child(1)').html(k);
+    });
+};
+addSerialNumber();
+  </script>
+
+ 
+   <!-- Bootstrap core JavaScript-->
+  <link href=" {% static "vendor/datatables/dataTables.bootstrap4.css" %}" rel="stylesheet">
+
+ <script src="{% static 'js/projectjs/group-order.js' %}"></script>
+
+
+  <script  src="{% static 'vendor/jquery/jquery.min.js'  %}"></script>
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+  <!-- Page level plugin JavaScript-->
+  <script src="{% static 'vendor/chart.js/Chart.min.js' %}"></script>
+  <script src="{% static 'vendor/datatables/jquery.dataTables.js' %}"></script>
+  <script src="{% static 'vendor/datatables/dataTables.bootstrap4.js' %}"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="{% static 'js/sb-admin.min.js' %}"></script>
+
+  <!-- Demo scripts for this page-->
+  <script src="{% static 'js/demo/datatables-demo.js' %}"></script>
+  <!--<script src="js/demo/chart-area-demo.js"></script>-->
+ <script src="{% static 'js/custom.js' %}"></script>
+ <script>
+
+      $('.feat-btn').click(function(){
+        $('nav ul .feat-show').toggleClass("show1");
+        $('nav ul .first').toggleClass("rotate1");
+      });
+      $('.feat-btn').click(function(){
+        $('nav ul .feat-show').toggleClass("show");
+     
+      });
+      $('.serv-btn').click(function(){
+        $('nav ul .serv-show').toggleClass("show1");
+        $('nav ul .second').toggleClass("rotate");
+      });
+      $('nav ul li').click(function(){
+        $(this).addClass("active").siblings().removeClass("active");
+      });
+    </script>
+
+  <!--<script src="js/demo/chart-area-demo.js"></script>-->
+<!--   <script>
+    var table = $('#tableOpenOrders');
+    
+    $('#s.no, #date')
+        .wrapInner('<span title="sort this column"/>')
+        .each(function(){
+            
+            var th = $(this),
+                thIndex = th.index(),
+                inverse = false;
+            
+            th.click(function(){
+                
+                table.find('td').filter(function(){
+                    
+                    return $(this).index() === thIndex;
+                    
+                }).sortElements(function(a, b){
+                    
+                    return $.text([a]) > $.text([b]) ?
+                        inverse ? -1 : 1
+                        : inverse ? 1 : -1;
+                    
+                }, function(){
+                    
+                    // parentNode is the element we want to move
+                    return this.parentNode; 
+                    
+                });
+                
+                inverse = !inverse;
+                    
+            });
+                
+        });
+  </script> -->
+
+ 
+  {% comment %} <script src="dashboard/js/custom.js"></script>  {% endcomment %}
+   
+   
+
+
+    
+     <!--  <script type='text/javascript'>
+            
+
+                $('#open').click(function(){
+
+                  var triggername=$("#triggername").val();
+                   
+                    
+                    
+
+                    // AJAX request
+
+                    $.ajax({
+                        url: 'grouppopup.html',
+                        type: 'post',
+                        data: {},
+                        success: function(response){ 
+                           
+
+                          // 
+                            // Add response in Modal body
+                            $('.modal-body1').html(response); 
+                            
+
+                            // Display Modal
+                            $('#openmodal').modal('show'); 
+                        }
+                    });
+                  
+                });
+
+            
+            </script> -->
+
+
+    <script>
+
+              function deletegroup(id){ 
+
+
+          debugger;
+             
+           if(confirm("Are you sure you want to delete ?")) {  
+               $.ajax({
+                   url:"http://127.0.0.1:8000/groups_order_listing/delete_group/",
+                   method:"POST",
+                  data:JSON.stringify
+                  ({
+                        "data":{"id":id}
+                   }),
+                  
+                  dataType: "json",
+                  contentType: "application/json",
+                  //data:'id='+id,  
+
+                    success: function(result){
+                    if(result.status=="success"){
+                       // window.location.reload();
+                       alert("Group order deleted sucessfully.") 
+                       window.location.reload();      
+                    }
+                    else{
+                       alert("Error occured !");
+                    }
+
+                   
+
+                   }
+                   
+               });
+         
+     
+          }
+
+      }
+      
+                
+        
+
+        </script>
+
+    <script>
+
+              function cancleorder(id){ 
+
+alert(id);
+          debugger;
+             
+           if(confirm("Are you sure you want to cancel cronjob ?")) {  
+               $.ajax({
+                   url:"http://127.0.0.1:8000/groups_order_listing/cancle_group_order/",
+                   method:"POST",
+                  data:JSON.stringify
+                  ({
+                        "data":{"id":id}
+                   }),
+                  
+                  dataType: "json",
+                  contentType: "application/json",
+                  //data:'id='+id,  
+
+                    success: function(result){
+                    if(result.status=="success"){
+                       // window.location.reload();
+                       alert("Group order cancled sucessfully.") 
+                       window.location.reload();      
+                    }
+                    else{
+                       alert("Error occured !");
+                    }
+
+                   }
+                   
+               });
+         
+     
+          }
+
+      }
+      
+                
+        
+
+        </script>
+    <script>
+
+              function restart_group_order(id){ 
+
+alert("restart cronjob"+id);
+          debugger;
+             
+           if(confirm("Are you sure you want to restart order execution ?")) {  
+               $.ajax({
+                   url:"http://127.0.0.1:8000/restart_group_order/",
+                   method:"POST",
+                  data:JSON.stringify
+                  ({
+                        "data":{"id":id}
+                   }),
+                  
+                  dataType: "json",
+                  contentType: "application/json",
+                  //data:'id='+id,  
+
+                    success: function(result){
+                    if(result.status=="success"){
+                       // window.location.reload();
+                       alert("Group order execution started .") 
+
+
+                      $.ajax({
+                      
+                      url:"http://127.0.0.1:8000/online_group_order/",
+
+                      success: function(result){
+                      if(result.status=="success")
+                      { 
+                      alert("Order executed successfully")
+                      }
+                    }
+
+                      });
+
+//                       window.location.reload();      
+                    }
+                    else{
+                       alert("Error occured !");
+                    }
+
+                   }
+                   
+               });
+         
+     
+          }
+
+      }
+      
+                
+        
+
+        </script>
+
+
+</body>
+
+</html>

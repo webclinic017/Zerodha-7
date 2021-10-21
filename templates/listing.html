@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+
+<style>
+    
+
+.nav-link[data-toggle].collapsed:after {
+    content: " ▾";
+}
+.nav-link[data-toggle]:not(.collapsed):after {
+    content: " ▴";
+}
+
+
+
+</style>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<link href="css/bootstrap.css" rel="stylesheet">   
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+
+</head>
+<body>
+
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-2 collapse show d-md-flex bg-light pt-2 pl-0 min-vh-100" id="sidebar">
+            <ul class="nav flex-column flex-nowrap overflow-hidden">
+                <li class="nav-item">
+                    <a class="nav-link text-truncate" href="#"><i class="fa fa-home"></i> <span class="d-none d-sm-inline">Overview</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed text-truncate" href="#submenu1" data-toggle="collapse" data-target="#submenu1"><i class="fa fa-table"></i> <span class="d-none d-sm-inline">Reports</span></a>
+                    <div class="collapse" id="submenu1" aria-expanded="false">
+                        <ul class="flex-column pl-2 nav">
+                            <li class="nav-item"><a class="nav-link py-0" href="#"><span>Orders</span></a></li>
+                            <li class="nav-item">
+                                <a class="nav-link collapsed py-1" href="#submenu1sub1" data-toggle="collapse" data-target="#submenu1sub1"><span>Customers</span></a>
+                                <div class="collapse" id="submenu1sub1" aria-expanded="false">
+                                    <ul class="flex-column nav pl-4">
+                                        <li class="nav-item">
+                                            <a class="nav-link p-1" href="#">
+                                                <i class="fa fa-fw fa-clock-o"></i> Daily </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link p-1" href="#">
+                                                <i class="fa fa-fw fa-dashboard"></i> Dashboard </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link p-1" href="#">
+                                                <i class="fa fa-fw fa-bar-chart"></i> Charts </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link p-1" href="#">
+                                                <i class="fa fa-fw fa-compass"></i> Areas </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item"><a class="nav-link text-truncate" href="#"><i class="fa fa-bar-chart"></i> <span class="d-none d-sm-inline">Analytics</span></a></li>
+                <li class="nav-item"><a class="nav-link text-truncate" href="#"><i class="fa fa-download"></i> <span class="d-none d-sm-inline">Export</span></a></li>
+            </ul>
+        </div>
+        <div class="col pt-2">
+    
+            <div id="content-wrapper">
+<!--table start-->
+<div class="panel-wrap">
+  <div class="panel">
+
+     <div class="card mb-3">
+          <div class="card-header">
+           
+           <h2>OPEN ORDERS(x)</h2></div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered" id="tableOpenOrders" width="100%"cellspacing="0" border="1"style="border-collapse:collapse;">
+                <thead>
+                  <tr>
+                    <th style="background-color:#FFA500" onclick="sortTable(0)">S.no</th>
+                    <th  style="background-color:#FFA500"onclick="sortTable(1)">Date and Time </th>
+                    <th  style="background-color:#FFA500"onclick="sortTable(2)" >Trigger</th>
+                  <th  style="background-color:#FFA500"onclick="sortTable(3)">Trigger Instrument</th>
+                    <th  style="background-color:#FFA500"onclick="sortTable(4)">Trigger Condition</th>
+                    <th  style="background-color:#FFA500" onclick="sortTable(5)">Order Instrument</th>
+                    <th  style="background-color:#FFA500" onclick="sortTable(6)">BUY/SELL</th>
+                    <th  style="background-color:#FFA500" onclick="sortTable(7)">Qty.</th>
+                    <th  style="background-color:#FFA500" onclick="sortTable(8)">Product type</th>
+                    <th  style="background-color:#FFA500;"onclick="sortTable(9)" >Open order</a></th>
+                          <th  style="background-color:#FFA500">Edit order</th>
+                    <th style="background-color:#FFA500">Delete order</th>
+                </thead>
+                <tbody>
+                  <tr>
+                   <td>1</td> 
+                   <td>March 11, 2021, 12:25 p.m.</td>
+                   <td>64564</td>
+                   <td>asd</td>
+                    <td>kiev</td>
+                      <td>uk</td>
+                      <td>Buy</td>
+                      <td>50</td>
+                      <td>commercial</td>  
+                      <td>yes</td>
+                
+
+                  </tr>
+              
+              <tr>
+                   <td>2</td> 
+                   <td>March 11, 2021, 12:25 p.m.</td>
+                   <td>10</td>
+                   <td>something</td>
+                    <td>text</td>
+                      <td>zero</td>
+                      <td>sell</td>
+                      <td>20</td>
+                      <td>officail</td>  
+                      <td>No</td>
+                
+                  </tr>
+
+                <tr>
+                   <td>3</td> 
+                   <td>March 11, 2021, 12:25 p.m.</td>
+                   <td>5</td>
+                   <td>text</td>
+                    <td>Lorem</td>
+                      <td>one</td>
+                      <td>Alpha</td>
+                      <td>10</td>
+                      <td>a-one</td>  
+                      <td>no</td>
+                
+                  </tr>
+
+              <tr>
+                   <td>4</td> 
+                   <td>March 9 2021 1:00 PM</td>
+                   <td>5</td>
+                   <td>text</td>
+                    <td>Lorem</td>
+                      <td>one</td>
+                      <td>Alpha</td>
+                      <td>10</td>
+                      <td>a-one</td>  
+                      <td>no</td>
+                
+                  </tr>
+                  <tr>
+                   <td>5</td> 
+                   <td>March 9 2021 1:00 PM</td>
+                   <td>5</td>
+                   <td>text</td>
+                    <td>Lorem</td>
+                      <td>one</td>
+                      <td>Alpha</td>
+                      <td>10</td>
+                      <td>a-one</td>  
+                      <td>no</td>
+                
+                  </tr>
+
+                </tbody>
+
+
+               </table>
+            </div>
+          </div>
+          <!--<div class="card-footer small text-muted"></div>-->
+        </div>
+
+
+        </div>
+    </div>
+</div>
+
+
+          <div class="card-header">
+           
+           <h2>EXECUTED ORDERS(X)</h2></div>
+          <div class="card-body">
+            <div class="table-responsive">
+      <table class="table table-bordered" id="tableExecutedOrders" width="100%" cellspacing="0" border="1"style="border-collapse:collapse;">
+                <thead>
+                  <tr>
+                    <th style="background-color:#FFA500" onclick="sortt(0)">S.no</th>
+                    <th  style="background-color:#FFA500" onclick="sortt(1)">Date/Time</th>
+                    <th  style="background-color:#FFA500" onclick="sortt(2)">Trigger</th>
+                    <th  style="background-color:#FFA500" onclick="sortt(3)">Trigger Instrument</th>
+                      <th  style="background-color:#FFA500" onclick="sortt(4)">Trigger Condition</th>
+                      <th  style="background-color:#FFA500" onclick="sortt(5)">Order Instrument</th>
+                        <th  style="background-color:#FFA500" onclick="sortt(6)">BUY/SELL</th>
+                        <th  style="background-color:#FFA500" onclick="sortt(7)">Qty.</th>
+                          <th  style="background-color:#FFA500" onclick="sortt(8)">Product type</th>
+                            <th  style="background-color:#FFA500;" onclick="sortt(9)">Execute order</th>
+                          <th  style="background-color:#FFA500" onclick="sortt(10)">Edit order</th>
+                            <th style="background-color:#FFA500"onclick="sortt(11)">Delete order</th>
+                              <!-- <a href="{% url 'execute_oreder_excel' %}"><button type="button" class="btn btn-primary">Download execute Orders</button></a> -->
+                 </tr>
+               </thead>
+
+<tbody>
+                  <tr>
+                   <td>1</td> 
+                   <td>March 10 2021 3:58 PM</td>
+                   <td>64564</td>
+                   <td>asd</td>
+                    <td>kiev</td>
+                      <td>uk</td>
+                      <td>Buy</td>
+                      <td>50</td>
+                      <td>commercial</td>  
+                      <td>yes</td>
+                
+
+                  </tr>
+              
+              <tr>
+                   <td>2</td> 
+                   <td>March 11 2021 4:00 PM</td>
+                   <td>10</td>
+                   <td>something</td>
+                    <td>text</td>
+                      <td>zero</td>
+                      <td>sell</td>
+                      <td>20</td>
+                      <td>officail</td>  
+                      <td>No</td>
+                
+                  </tr>
+
+                <tr>
+                   <td>3</td> 
+                   <td>March 12 2021 2:00 PM</td>
+                   <td>5</td>
+                   <td>text</td>
+                    <td>Lorem</td>
+                      <td>one</td>
+                      <td>Alpha</td>
+                      <td>10</td>
+                      <td>a-one</td>  
+                      <td>no</td>
+                
+                  </tr>
+
+              <tr>
+                   <td>4</td> 
+                   <td>March 9 2021 1:00 PM</td>
+                   <td>5</td>
+                   <td>text</td>
+                    <td>Lorem</td>
+                      <td>one</td>
+                      <td>Alpha</td>
+                      <td>10</td>
+                      <td>a-one</td>  
+                      <td>no</td>
+                
+                  </tr>
+                  <tr>
+                   <td>5</td> 
+                   <td>March 9 2021 1:00 PM</td>
+                   <td>5</td>
+                   <td>text</td>
+                    <td>Lorem</td>
+                      <td>one</td>
+                      <td>Alpha</td>
+                      <td>10</td>
+                      <td>a-one</td>  
+                      <td>no</td>
+                
+                  </tr>
+
+                </tbody>
+
+
+                  <!-- 
+                    {% for i in dict_result_2 %}
+
+                    <tr>
+                    <th>1</th>
+                      <th>{{ i.created_on }}</th>
+                      <th>{{ i.trigger_name }}</th>
+                      <th>{{ i.symbol }}</th>
+                      <th>{{ i.trigger_condition }}</th>
+                      <th>{{ i.symbol }}</th>
+                      <th>{{ i.buy_sell }}</th>
+                      <th>{{ i.quantity }}</th>
+                      <th>{{ i.product_type }}</th>
+                      <th><button type="button" class="btn btn-info">Execute</button></th>
+                      <th><a href="{{i.trigger_id}}"><button type="button" class="btn btn-info">Edit</button></a></th>
+                      <th><a href="delete/{{i.trigger_id}}"><button type="button" class="btn btn-info">Delete</button></a></th>
+ -->
+                    </tr>
+                    <!-- {% endfor %} -->
+                  
+                  </tr>
+                </thead>
+              </table>
+            </div>
+          </div>
+          <!--<div class="card-footer small text-muted"></div>-->
+        </div>
+<!--end table2-->
+     
+      <!-- Sticky Footer -->
+      <footer class="sticky-footer">
+        <div class="container my-auto">
+          <div class="copyright text-center my-auto">
+            <span>Copyright ©Smart Invest 2020</span>
+          </div>
+        </div>
+      </footer>
+
+    </div>
+    <!-- /.content-wrapper -->
+
+  </div>
+  <!-- /#wrapper -->
+
+  </div>
+
+
+
+</body>
+</html>

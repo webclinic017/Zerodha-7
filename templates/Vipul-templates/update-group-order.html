@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Smart Invest</title>
+  {% load static %}
+  <!-- Custom fonts for this template-->
+  <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+
+  <!-- Page level plugin CSS-->
+  <link href="{% static 'vendor/datatables/dataTables.bootstrap4.css' %}" rel="stylesheet">
+<!-- log out logo-->
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+  <!-- Custom styles for this template-->
+  <link href="{% static 'css/sb-admin.css' %}" rel="stylesheet">
+<!--<link href="css/login.css" rel="stylesheet">-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+ <!--<script src="../sendformdata.js"></script>-->
+ <script src="{% static 'js/projectjs/update-group-order.js' %}"></script> 
+</head>
+
+<body id="page-top">
+
+  <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
+
+    <a class="navbar-brand mr-1" href="{% url 'home' %}">Smart Invest</a>
+
+    <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
+      <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Navbar Search -->
+    <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0" style="visibility: hidden;">
+    {{csrf_token}}
+      <div class="input-group">
+        <!--<input type="text" class="form-control" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">-->
+        <div class="input-group-append">
+          <button class="btn btn-primary" type="button">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+      </div>
+    </form>
+
+    <!-- Navbar -->
+    <ul class="navbar-nav ml-auto ml-md-0">
+<!--      <li class="nav-item dropdown no-arrow mx-1">
+        <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="fas fa-bell fa-fw"></i>
+          <span class="badge badge-danger">9+</span>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="alertsDropdown">
+          <a class="dropdown-item" href="#">Action</a>
+          <a class="dropdown-item" href="#">Another action</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">Something else here</a>
+        </div>
+      </li>-->
+      <li class="nav-item dropdown no-arrow mx-1">
+        <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <!--<i class="fas fa-envelope fa-fw"></i>-->
+          <p style="font-size:20px">Krishnakant</p>
+          <!--<span class="badge badge-danger"></span>-->
+        </a>
+<!--        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="messagesDropdown">
+          <a class="dropdown-item" href="#">Action</a>
+          <a class="dropdown-item" href="#">Another action</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">Something else here</a>
+        </div>
+      </li>-->
+      <li class="nav-item dropdown no-arrow">
+        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="fas fa-user-circle fa-fw"></i>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+          <!--<a class="dropdown-item" href="#">Settings</a>-->
+          <!--<a class="dropdown-item" href="#">Activity Log</a>-->
+          <div class="dropdown-divider"></div>
+          <!--<a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">Logout</a>-->
+        </div>
+      </li>
+    </ul>
+
+  </nav>
+
+  <div id="wrapper">
+  
+
+   <!------------ edit: Sidebar --------  -->     
+
+      <nav class="sidebar" >
+          <a class="nav-link" href="{% url 'home' %}"></a>
+          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <ul>
+                {% comment %} <li class="active"><a href="{% url 'home' %}">Dashboard</a></li> {% endcomment %}
+                <li>
+                    <a href="#" class="feat-btn" style="color:white;">Individual
+                        <span class="fas fa-caret-down first"></span>
+                    </a>
+                    <ul class="feat-show">
+                        <li><a href="{% url 'home' %}">Dashboard</a> </li>
+
+                        <li> <a href="{% url 'save_multiple_trigger' %}" >  Add Trigger</a> </li>
+                        <li> <a href="{% url 'save_multiple_order' %}" > Add Order</a> </li>
+                        <li> <a href="{% url 'trigger_list' %}" > Trigger List</a> </li>
+        
+                    </ul>
+                </li>
+                <li>
+                    <a href="#" class="serv-btn" style="color:white;">Group<span class="fas fa-caret-down second"></span></a>
+                        <ul class="serv-show">
+                            <li> <a href="{% url 'groups_order_listing' %}" > Group Dashboard</a> </li>
+                            <li> <a href="{% url 'create_group' %}" >Create Group</a> </li>
+                            <li> <a href="{% url 'insert_group_trigger' %}" > Add Trigger</a> </li>
+                            <li> <a href="{% url 'insert_group_order' %}" > Add Order</a> </li>
+                            <li> <a href="{% url 'group_listing' %}" > Group List</a> </li>
+                            {% comment %} <li> <a href="{% url 'group_trigger_listing' %}" >  Group Trigger List</a> </li> {% endcomment %}
+                        </ul>
+                </li>
+                <li>
+                    <a href="{% url 'user_logout' %}" style="color:white;padding-left:12px;"><i class="fa fa-sign-out" >  </i>Log Out</a>
+                </li>
+            </ul>
+      </nav>
+      
+      <!------------ edit: Sidebar --------  -->  
+      <!------------ edit: Sidebar --------  --> 
+  
+    <div id="content-wrapper">
+<!--table start-->
+<div class="panel-wrap">
+  <div class="panel">
+<div class="container"> 
+    <center>
+         <!--<div class="me-heading2">-->
+                <!--<h1 style="background-color:#FFA500;font-size:32px">Trigger and Condition Set</h1>-->
+         <!--   </div>-->
+    </center>
+         <!--  <div class="messages">
+            {% for message in messages %}
+            {% if message.tags == 'error'%}
+              <div class=" col-12 alert alert-danger" role="alert">{{ message }}</div>
+          {% else %}
+              <div class=" col-12 alert alert-success" role="alert">{{ message }}</div>
+            {% endif %}
+            {% endfor %}
+        </div> -->
+    
+<!--<div class="" style="background-color:#f2f2f2;padding-bottom:10px">-->
+<!--   <div class="container">-->
+<!--       <div class="row">-->
+        
+<!--     <div class="col-lg-4"></div>-->
+     
+     
+     <!--order condition-->
+     
+   
+          <!--<div class="col-lg-4">-->
+<!--======================================Page break==================================================================-->
+           <div class="row">
+            <div class="col-sm-6">
+          <div class="" style="padding-top:30px;padding-left:0px;padding-right:0px" >
+               <div class="container-fluid" ></div>
+            <div class="me-heading2" >
+                <h1 style="border-bottom: 2px solid #ffb628;font-size:30px!important;background-color:#FFA500;padding:8px;font-weight:500"><center><b>Order Condition</b></center></h1>
+            </div>
+        <!--</div>-->
+        </div>
+  <form action="#" id="orderform" method="POST">
+    <div class="form-group" style="display:none;" >
+      <input type="text" value={{group_order.0}} id="order_id">
+    </div>
+      <div class="form-group">
+      <label for="buy" style="font-weight:700">Buy/Sell</label>
+      <select class="form-control" id="order_buy_sell"  style="background-color:#E9ECEF">
+          <option value={{group_order.4}}>{{group_order.3}}</option>
+          <option value="1">Buy</option>
+          <option value="2">Sell</option>
+          </select>
+    </div>
+    <div class="form-group">
+      <label for="exchange" style="font-weight:700">Exchange</label>
+      <select class="form-control" id="order_exchange"  style="background-color:#E9ECEF">
+          <option volume={{group_order.6}}>{{group_order.5}}</option>
+          <option value="4">NSE</option>
+          <option value="1">BSE</option>
+          <option value="3">NFO</option>
+          <option value="2">MCX</option>
+          </select>
+    </div>
+    {% comment %} <div class="form-group">
+      <label for="symbol" style="font-weight:700">Symbol</label>
+      <input  style="background-color:#E9ECEF" type="text" class="form-control" id="order_symbol" placeholder="Symbol" value={{group_order.2}} name="smbl" >
+      <ul class="list-group" id="resultorderinstrument"></ul>
+    </div> {% endcomment %}
+     
+    <div class="form-group">
+      <label for="qty" style="font-weight:700">Amount</label>
+      <input  style="background-color:#E9ECEF" type="text" class="form-control" id="order_qty" placeholder="Amount" value={{group_order.7}} name="qty">
+    </div>
+     <div class="form-group">
+      <label for="product_type" style="font-weight:700">Product Type</label>
+      <select class="form-control" id="order_product_type"  style="background-color:#E9ECEF">
+          <option value="{{group_order.9}}">{{group_order.8}}</option>
+          <option value="1">NRML</option>
+          <option value="2">MIS</option>
+          <option value="3">CNC</option>
+          </select>
+    </div>
+    <div class="form-group">
+      <label for="order" style="font-weight:700">Order</label>
+      <select class="form-control" id="order_type"  style="background-color:#E9ECEF">
+          <option value={{group_order.11}}>{{group_order.10}}</option>
+          <option value="1">Market</option>
+          <option value="2">Limit</option>
+          <option value="3">SL</option>
+          <option value="4">SL-M</option>
+          </select>
+    </div>
+    <div class="form-group" id="order-price-container" style="display: none">
+      <label for="trigger" style="font-weight:700">Price</label>
+      <input style="background-color:#E9ECEF"type="text" value={{group_order.12}} class="form-control" id="order-price" placeholder="Price" name="trigger">
+    </div>
+    <div class="form-group" style="display: none" id="trigger-price-container">
+      <label for="price" style="font-weight:700"> Trigger Price:</label>
+      <input style="background-color:#E9ECEF" type="text" class="form-control" value={{group_order.13}} id="order-trigger-price" placeholder=" Trigger Price" name="price">
+    </div>
+   <br/>
+   <button type="button" class="btn btn-default" id="update" value="Submit" style="font-weight:700;background-color:#E9ECEF">Submit</button>
+  </form><br>
+ 
+  </div>
+ 
+</div>
+</div>
+</div></div>
+<!--end table2-->
+     
+      <!-- Sticky Footer -->
+      <footer class="sticky-footer">
+        <div class="container my-auto">
+          <div class="copyright text-center my-auto">
+            
+            <span>Copyright ©Smart Invest 2020</span>
+          </div>
+        </div>
+      </footer>
+
+    </div>
+    <!-- /.content-wrapper -->
+
+  </div>
+  <!-- /#wrapper -->
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  <!-- Logout Modal-->
+  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+          <a class="btn btn-primary" href="login.html">Logout</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+ <!-- Bootstrap core JavaScript-->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+   <!-- Core plugin JavaScript-->
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Page level plugin JavaScript-->
+  <script src="vendor/chart.js/Chart.min.js"></script>
+  <script src="vendor/datatables/jquery.dataTables.js"></script>
+  <script src="vendor/datatables/dataTables.bootstrap4.js"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="js/sb-admin.min.js"></script>
+
+  <!-- Demo scripts for this page-->
+  <script src="js/demo/datatables-demo.js"></script>
+  <!--<script src="js/demo/chart-area-demo.js"></script>-->
+ <script src="js/custom.js"></script>
+  <script>
+
+      $('.feat-btn').click(function(){
+        $('nav ul .feat-show').toggleClass("show1");
+        $('nav ul .first').toggleClass("rotate1");
+      });
+      $('.feat-btn').click(function(){
+        $('nav ul .feat-show').toggleClass("show");
+     
+      });
+      $('.serv-btn').click(function(){
+        $('nav ul .serv-show').toggleClass("show1");
+        $('nav ul .second').toggleClass("rotate");
+      });
+      $('nav ul li').click(function(){
+        $(this).addClass("active").siblings().removeClass("active");
+      });
+    </script>
+
+
+</body>
+
+</html>
